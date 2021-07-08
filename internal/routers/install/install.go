@@ -17,10 +17,10 @@ import (
 	"github.com/ouqiang/gocron/internal/service"
 )
 
-// 系统安装
+// System install
 
 type InstallForm struct {
-	DbType               string `binding:"In(mysql,postgres)"`
+	DbType               string `binding:"In(mysql,postgres,sqlite3)"`
 	DbHost               string `binding:"Required;MaxSize(50)"`
 	DbPort               int    `binding:"Required;Range(1,65535)"`
 	DbUsername           string `binding:"Required;MaxSize(50)"`
@@ -38,11 +38,11 @@ func (f InstallForm) Error(ctx *macaron.Context, errs binding.Errors) {
 		return
 	}
 	json := utils.JsonResponse{}
-	content := json.CommonFailure("表单验证失败, 请检测输入")
+	content := json.CommonFailure("Validation failed, check the input parameters")
 	ctx.Write([]byte(content))
 }
 
-// 安装
+// Installation
 func Store(ctx *macaron.Context, form InstallForm) string {
 	json := utils.JsonResponse{}
 	if app.Installed {
@@ -97,7 +97,7 @@ func Store(ctx *macaron.Context, form InstallForm) string {
 	return json.Success("安装成功", nil)
 }
 
-// 配置写入文件
+// Write config file
 func writeConfig(form InstallForm) error {
 	dbConfig := []string{
 		"db.engine", form.DbType,
@@ -111,7 +111,7 @@ func writeConfig(form InstallForm) error {
 		"db.max.idle.conns", "5",
 		"db.max.open.conns", "100",
 		"allow_ips", "",
-		"app.name", "定时任务管理系统", // 应用名称
+		"app.name", "Simple-GoCron", // Application name
 		"api.key", "",
 		"api.secret", "",
 		"enable_tls", "false",

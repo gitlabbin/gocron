@@ -11,6 +11,7 @@ import (
 	"github.com/go-xorm/core"
 	"github.com/go-xorm/xorm"
 	_ "github.com/lib/pq"
+	_ "github.com/mattn/go-sqlite3"
 	"github.com/ouqiang/gocron/internal/modules/app"
 	"github.com/ouqiang/gocron/internal/modules/logger"
 	"github.com/ouqiang/gocron/internal/modules/setting"
@@ -110,6 +111,9 @@ func getDbEngineDSN(setting *setting.Setting) string {
 	engine := strings.ToLower(setting.Db.Engine)
 	dsn := ""
 	switch engine {
+	case "sqlite3":
+		dsn = fmt.Sprintf("./%s",
+			setting.Db.Database)
 	case "mysql":
 		dsn = fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s&allowNativePasswords=true",
 			setting.Db.User,

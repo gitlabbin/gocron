@@ -3,14 +3,14 @@
     <el-main>
       <el-form :inline="true" >
         <el-row>
-          <el-form-item label="节点ID">
+          <el-form-item label="NodeID">
             <el-input v-model.trim="searchParams.id"></el-input>
           </el-form-item>
-          <el-form-item label="主机名">
+          <el-form-item label="Host">
             <el-input v-model.trim="searchParams.name"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="search()">搜索</el-button>
+            <el-button type="primary" @click="search()">Search</el-button>
           </el-form-item>
         </el-row>
       </el-form>
@@ -19,7 +19,7 @@
           <el-button type="primary" v-if="this.$store.getters.user.isAdmin"  @click="toEdit(null)">新增</el-button>
         </el-col>
         <el-col :span="2">
-          <el-button type="info" @click="refresh">刷新</el-button>
+          <el-button type="info" @click="refresh">Refresh</el-button>
         </el-col>
       </el-row>
       <el-pagination

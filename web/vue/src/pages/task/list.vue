@@ -4,20 +4,20 @@
   <el-main>
     <el-form :inline="true" >
       <el-row>
-        <el-form-item label="任务ID">
+        <el-form-item label="JobID">
           <el-input v-model.trim="searchParams.id"></el-input>
         </el-form-item>
-        <el-form-item label="任务名称">
+        <el-form-item label="JobName">
           <el-input v-model.trim="searchParams.name"></el-input>
         </el-form-item>
-        <el-form-item label="标签">
+        <el-form-item label="Tag">
           <el-input v-model.trim="searchParams.tag"></el-input>
         </el-form-item>
       </el-row>
       <el-row>
-        <el-form-item label="执行方式">
+        <el-form-item label="JobType">
           <el-select v-model.trim="searchParams.protocol">
-            <el-option label="全部" value=""></el-option>
+            <el-option label="All" value=""></el-option>
             <el-option
               v-for="item in protocolList"
               :key="item.value"
@@ -26,9 +26,9 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="任务节点">
+        <el-form-item label="Node">
           <el-select v-model.trim="searchParams.host_id">
-            <el-option label="全部" value=""></el-option>
+            <el-option label="All" value=""></el-option>
             <el-option
               v-for="item in hosts"
               :key="item.id"
@@ -37,9 +37,9 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="状态">
+        <el-form-item label="Status">
           <el-select v-model.trim="searchParams.status">
-            <el-option label="全部" value=""></el-option>
+            <el-option label="All" value=""></el-option>
             <el-option
               v-for="item in statusList"
               :key="item.value"
@@ -49,16 +49,16 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="search()">搜索</el-button>
+          <el-button type="primary" @click="search()">Search</el-button>
         </el-form-item>
       </el-row>
     </el-form>
     <el-row type="flex" justify="end">
       <el-col :span="2">
-        <el-button type="primary" @click="toEdit(null)" v-if="this.$store.getters.user.isAdmin">新增</el-button>
+        <el-button type="primary" @click="toEdit(null)" v-if="this.$store.getters.user.isAdmin">Add</el-button>
       </el-col>
       <el-col :span="2">
-        <el-button type="info" @click="refresh">刷新</el-button>
+        <el-button type="info" @click="refresh">Refresh</el-button>
       </el-col>
     </el-row>
     <el-pagination
@@ -82,7 +82,7 @@
             <el-form-item label="任务创建时间:">
               {{scope.row.created | formatTime}} <br>
             </el-form-item>
-            <el-form-item label="任务类型:">
+            <el-form-item label="JobType:">
               {{scope.row.level | formatLevel}} <br>
             </el-form-item>
             <el-form-item label="单实例运行:">
@@ -113,23 +113,23 @@
       </el-table-column>
       <el-table-column
         prop="id"
-        label="任务ID">
+        label="JobID">
       </el-table-column>
       <el-table-column
         prop="name"
-        label="任务名称"
+        label="Name"
       width="150">
       </el-table-column>
       <el-table-column
         prop="tag"
-        label="标签">
+        label="Tag">
       </el-table-column>
       <el-table-column
         prop="spec"
-        label="cron表达式"
+        label="cron"
       width="120">
       </el-table-column>
-      <el-table-column label="下次执行时间" width="160">
+      <el-table-column label="NextRunOn" width="160">
         <template slot-scope="scope">
           {{scope.row.next_run_time | formatTime}}
         </template>
@@ -137,10 +137,10 @@
       <el-table-column
         prop="protocol"
         :formatter="formatProtocol"
-        label="执行方式">
+        label="JobType">
       </el-table-column>
       <el-table-column
-        label="状态" v-if="this.isAdmin">
+        label="Status" v-if="this.isAdmin">
           <template slot-scope="scope">
             <el-switch
               v-if="scope.row.level === 1"
@@ -166,16 +166,16 @@
           </el-switch>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="220" v-if="this.isAdmin">
+      <el-table-column label="Actions" width="220" v-if="this.isAdmin">
         <template slot-scope="scope">
           <el-row>
-            <el-button type="primary" @click="toEdit(scope.row)">编辑</el-button>
-            <el-button type="success" @click="runTask(scope.row)">手动执行</el-button>
+            <el-button type="primary" @click="toEdit(scope.row)">Edit</el-button>
+            <el-button type="success" @click="runTask(scope.row)">RunNow</el-button>
           </el-row>
           <br>
           <el-row>
-            <el-button type="info" @click="jumpToLog(scope.row)">查看日志</el-button>
-            <el-button type="danger" @click="remove(scope.row)">删除</el-button>
+            <el-button type="info" @click="jumpToLog(scope.row)">Logs</el-button>
+            <el-button type="danger" @click="remove(scope.row)">Delete</el-button>
           </el-row>
         </template>
       </el-table-column>

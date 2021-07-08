@@ -137,6 +137,10 @@ export default {
       },
       dbList: [
         {
+          value: 'sqlite3',
+          label: 'Sqlite3'
+        },
+        {
           value: 'mysql',
           label: 'MySQL'
         },
