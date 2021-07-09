@@ -34,6 +34,10 @@ func ExecShell(ctx context.Context, command string) (string, error) {
 			exec.Command("taskkill", "/F", "/T", "/PID", strconv.Itoa(cmd.Process.Pid)).Run()
 			cmd.Process.Kill()
 		}
+
+		// Block waiting for command to exit, be stopped, or be killed
+		finalStatus := <-resultChan
+		log.Errorf("end with %v", finalStatus.err)
 		return "", errors.New("timeout killed")
 	case result := <-resultChan:
 		return ConvertEncoding(result.output), result.err
