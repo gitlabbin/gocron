@@ -3,14 +3,15 @@
 import Vue from 'vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import locale from 'element-ui/lib/locale/lang/en'
 import App from './App'
+import i18n from './i18n'
 import router from './router'
 import store from './store/index'
 
 Vue.config.productionTip = false
-// Vue.use(ElementUI)
-Vue.use(ElementUI, { locale })
+Vue.use(ElementUI, {
+  i18n: (key, value) => i18n.t(key, value)
+})
 
 Vue.directive('focus', {
   inserted: function (el) {
@@ -20,9 +21,9 @@ Vue.directive('focus', {
 })
 
 Vue.prototype.$appConfirm = function (callback) {
-  this.$confirm('确定执行此操作?', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
+  this.$confirm(this.$t('confirm_action_info'), this.$t('action_warn'), {
+    confirmButtonText: this.$t('buttons_ok'),
+    cancelButtonText: this.$t('action_cancel'),
     type: 'warning'
   }).then(() => {
     callback()
@@ -53,6 +54,7 @@ Vue.filter('formatTime', function (time) {
 new Vue({
   el: '#app',
   router,
+  i18n,
   store,
   components: { App },
   template: '<App/>'

@@ -1,0 +1,18 @@
+{
+  "hello": "hello i18n !!",
+  "welcomeMessage": "Welcome to Advanced Localization techniques tutorial in US English",
+  "about": "This is about page in US English",
+  "node_id": "NodeID",
+  "node_name": "Node Name",
+  "node_host": "Host Name",
+  "node_host_port": "Port",
+  "view_jobs": "View Jobs",
+  "node_description": "Description",
+  "node_action": "Action",
+  "node_edit": "Edit",
+  "node_ping": "Ping",
+  "buttons_ok": "Ok",
+  "confirm_action_info": "Are you sure to do this action?",
+  "action_warn": "Warn",
+  "action_cancel": "Cancel"
+}

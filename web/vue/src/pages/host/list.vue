@@ -39,34 +39,34 @@
         style="width: 100%">
         <el-table-column
           prop="id"
-          label="节点ID">
+          :label="$t('node_id')">
         </el-table-column>
         <el-table-column
           prop="alias"
-          label="节点名称">
+          :label="$t('node_name')">
         </el-table-column>
         <el-table-column
           prop="name"
-          label="主机名">
+          :label="$t('node_host')">
         </el-table-column>
         <el-table-column
           prop="port"
-          label="端口">
+          :label="$t('node_host_port')">
         </el-table-column>
-        <el-table-column label="查看任务">
+        <el-table-column :label="$t('view_jobs')">
           <template slot-scope="scope">
             <el-button type="success" @click="toTasks(scope.row)">查看任务</el-button>
           </template>
         </el-table-column>
         <el-table-column
           prop="remark"
-          label="备注">
+          :label="$t('node_description')">
         </el-table-column>
-        <el-table-column label="操作" width="300" v-if="this.isAdmin">
+        <el-table-column :label="$t('node_action')" width="300" v-if="this.isAdmin">
           <template slot-scope="scope">
             <el-row>
-              <el-button type="primary" @click="toEdit(scope.row)">编辑</el-button>
-              <el-button type="info" @click="ping(scope.row)">测试连接</el-button>
+              <el-button type="primary" @click="toEdit(scope.row)">{{ $t('node_edit') }}</el-button>
+              <el-button type="info" @click="ping(scope.row)">{{ $t('node_ping') }}</el-button>
               <el-button type="danger" @click="remove(scope.row)">删除</el-button>
             </el-row>
             <br>

@@ -1,0 +1,18 @@
+{
+  "hello": "hello i18n !!",
+  "welcomeMessage": "Welcome to Advanced Localization techniques tutorial in US English",
+  "about": "This is about page in US English",
+  "node_id": "节点ID",
+  "node_name": "节点名称",
+  "node_host": "主机名",
+  "node_host_port": "端口",
+  "view_jobs": "查看任务",
+  "node_description": "备注",
+  "node_action": "操作",
+  "node_edit": "编辑",
+  "node_ping": "测试连接",
+  "buttons_ok": "确定",
+  "confirm_action_info": "确定执行此操作?",
+  "action_warn": "提示",
+  "action_cancel": "取消"
+}
