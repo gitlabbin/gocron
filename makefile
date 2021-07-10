@@ -20,6 +20,7 @@ kill:
 
 .PHONY: gocron
 gocron:
+	go fmt ./...
 	go build $(RACE) -o bin/gocron ./cmd/gocron
 
 .PHONY: node
