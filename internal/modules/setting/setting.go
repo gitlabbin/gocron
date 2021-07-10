@@ -36,6 +36,7 @@ type Setting struct {
 
 	ConcurrencyQueue int
 	AuthSecret       string
+	Lang             string
 }
 
 // 读取配置
@@ -60,7 +61,7 @@ func Read(filename string) (*Setting, error) {
 	s.Db.MaxOpenConns = section.Key("db.max.open.conns").MustInt(100)
 
 	s.AllowIps = section.Key("allow_ips").MustString("")
-	s.AppName = section.Key("app.name").MustString("定时任务管理系统")
+	s.AppName = section.Key("app.name").MustString("Simple GoCron")
 	s.ApiKey = section.Key("api.key").MustString("")
 	s.ApiSecret = section.Key("api.secret").MustString("")
 	s.ApiSignEnable = section.Key("api.sign.enable").MustBool(true)
@@ -88,6 +89,8 @@ func Read(filename string) (*Setting, error) {
 			logger.Fatalf("failed to read client key file: %s", s.KeyFile)
 		}
 	}
+
+	s.Lang = section.Key("app.lang").MustString("en")
 
 	return &s, nil
 }

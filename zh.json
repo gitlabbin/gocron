@@ -1,0 +1,11 @@
+{
+  "hello_world": "Hello World",
+  "timeout": "执行超时, 强制结束",
+  "manual_cancel": "手动停止",
+  "node_unreachable": "无法连接远程服务器",
+  "messages": {
+    "description": "The number of messages a person has",
+    "one": "{{.Name}} 有 {{.Count}} 条信息.",
+    "other": "{{.Name}} 有 {{.Count}} 条信息."
+  }
+}

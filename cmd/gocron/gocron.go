@@ -4,6 +4,7 @@
 package main
 
 import (
+	"github.com/ouqiang/gocron/internal/modules/lang"
 	"os"
 	"os/signal"
 	"syscall"
@@ -98,6 +99,7 @@ func initModule() {
 		logger.Fatal("读取应用配置失败", err)
 	}
 	app.Setting = config
+	lang.InitLangResource(app.Setting.Lang)
 
 	// 初始化DB
 	models.Db = models.CreateDb()
