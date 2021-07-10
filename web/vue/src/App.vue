@@ -46,6 +46,7 @@ export default {
   }
   body {
     margin:0;
+    background-color: #EFF2F7;
   }
   .el-header {
     padding:0;

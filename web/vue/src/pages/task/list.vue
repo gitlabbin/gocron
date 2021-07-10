@@ -73,6 +73,7 @@
     </el-pagination>
     <el-table
       :data="tasks"
+      :header-cell-style="tableHeaderColor"
       tooltip-effect="dark"
       border
       style="width: 100%">
@@ -328,6 +329,12 @@ export default {
         path = `/task/edit/${item.id}`
       }
       this.$router.push(path)
+    },
+    //  modify the table header the background color
+    tableHeaderColor ({ row, column, rowIndex, columnIndex }) {
+      if (rowIndex === 0) {
+        return 'background-color: white;color: #000;font-weight: 500;'
+      }
     }
   }
 }

@@ -3,29 +3,41 @@
     <el-menu
       :default-active="currentRoute"
       mode="horizontal"
-      background-color="#545c64"
-      text-color="#fff"
-      active-text-color="#ffd04b"
+      class="el-menu-vertical-demo"
+      background-color="#324157"
+      text-color="#bfcbd9"
+      active-text-color="#049eff"
       router>
       <el-row>
         <el-col :span="2">
-          <el-menu-item index="/task">JobCenter</el-menu-item>
+          <el-menu-item index="/">
+            <template slot="title">
+              <i class="el-icon-menu"></i>
+              <span slot="title" style="font-size: 200%; background: inherit;">GoCron</span>
+            </template>
+          </el-menu-item>
         </el-col>
         <el-col :span="2">
-          <el-menu-item index="/host">Node</el-menu-item>
+          <el-menu-item index="/task">{{ $t('menu_jobs') }}</el-menu-item>
         </el-col>
         <el-col :span="2">
-          <el-menu-item v-if="this.$store.getters.user.isAdmin" index="/user">User</el-menu-item>
+          <el-menu-item index="/host">{{ $t('menu_nodes') }}</el-menu-item>
         </el-col>
         <el-col :span="2">
-          <el-menu-item v-if="this.$store.getters.user.isAdmin" index="/system">Setting</el-menu-item>
+          <el-menu-item v-if="this.$store.getters.user.isAdmin" index="/user">{{ $t('menu_users') }}</el-menu-item>
         </el-col>
-        <el-col :span="16"></el-col>
+        <el-col :span="2">
+          <el-menu-item v-if="this.$store.getters.user.isAdmin" index="/system">{{ $t('menu_settings') }}</el-menu-item>
+        </el-col>
+        <el-col :span="14"></el-col>
         <el-col :span="2" style="float:right;">
           <el-submenu v-if="this.$store.getters.user.token" index="userStatus">
-            <template slot="title">{{this.$store.getters.user.username}}</template>
-            <el-menu-item index="/user/edit-my-password">ChangePassword</el-menu-item>
-            <el-menu-item @click="logout" index="/user/logout">Logout</el-menu-item>
+            <template slot="title">
+              <i class="el-icon-setting"></i>
+              <span slot="title">{{this.$store.getters.user.username}}</span>
+            </template>
+            <el-menu-item index="/user/edit-my-password">{{ $t('menu_password') }}</el-menu-item>
+            <el-menu-item @click="logout" index="/user/logout">{{ $t('menu_logout') }}</el-menu-item>
           </el-submenu>
         </el-col>
       </el-row>
@@ -57,3 +69,9 @@ export default {
   }
 }
 </script>
+<style scoped lang='scss'>
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 100%;
+  min-height: 60px;
+}
+</style>

@@ -7,7 +7,7 @@
         :show-close="false"
         :close-on-press-escape="false"
         width="40%">
-        <el-form ref="form" :model="form" label-width="80px"
+        <el-form ref="form" @submit.prevent.native="submit" :model="form" label-width="80px"
         :rules="formRules">
           <el-form-item label="用户名" prop="username" >
             <el-col :span="16">
@@ -22,7 +22,7 @@
             </el-col>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submit">登录</el-button>
+            <el-button native-type="submit" type="primary">登录</el-button>
           </el-form-item>
         </el-form>
       </el-dialog>
