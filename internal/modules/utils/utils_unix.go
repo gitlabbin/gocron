@@ -5,6 +5,7 @@ package utils
 import (
 	"bufio"
 	"errors"
+	"github.com/ouqiang/gocron/internal/modules/buffer"
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/net/context"
 	"io"
@@ -67,14 +68,15 @@ func ExecShellPipe(ctx context.Context, command string) (string, error) {
 
 		merged := io.MultiReader(stderr, stdout)
 		scanner := bufio.NewScanner(merged)
-		var msg string
+		buf, _ := buffer.NewBuffer(2000)
 		for scanner.Scan() {
-			msg = scanner.Text()
+			msg := scanner.Text()
+			buf.Write([]byte(msg + "\n"))
 			log.Infof("cmd output: %s\n", msg)
 		}
 
 		err = cmd.Wait()
-		resultChan <- Result{string(msg), err}
+		resultChan <- Result{string(buf.Bytes()), err}
 		log.Infof("shell routine down.... %v", err)
 	}()
 

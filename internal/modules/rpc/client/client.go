@@ -12,6 +12,7 @@ import (
 	"github.com/ouqiang/gocron/internal/modules/logger"
 	"github.com/ouqiang/gocron/internal/modules/rpc/grpcpool"
 	pb "github.com/ouqiang/gocron/internal/modules/rpc/proto"
+	log "github.com/sirupsen/logrus"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc/codes"
 )
@@ -44,6 +45,9 @@ func Exec(ip string, port int, taskReq *pb.TaskRequest) (string, error) {
 	if err != nil {
 		return "", err
 	}
+
+	log.Infof("request with [timeout: %d]", taskReq.Timeout)
+	// any task will have a default timeout 1 day if no setting, or set less
 	if taskReq.Timeout <= 0 || taskReq.Timeout > 86400 {
 		taskReq.Timeout = 86400
 	}
