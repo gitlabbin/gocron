@@ -22,5 +22,12 @@
   "buttons_ok": "Ok",
   "confirm_action_info": "Are you sure to do this action?",
   "action_warn": "Warn",
-  "action_cancel": "Cancel"
+  "action_cancel": "Cancel",
+  "action_edit": "Edit",
+  "action_run": "Run",
+  "action_delete": "Delete",
+  "action_search": "Search",
+  "action_log": "Logs",
+  "action_add": "Add",
+  "action_refresh": "Refresh"
 }

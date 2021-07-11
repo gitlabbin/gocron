@@ -4,9 +4,9 @@
       :default-active="currentRoute"
       mode="horizontal"
       class="el-menu-vertical-demo"
-      background-color="#324157"
-      text-color="#bfcbd9"
-      active-text-color="#049eff"
+      :background-color="background_color"
+      :text-color="text_color"
+      :active-text-color="active_text_color"
       router>
       <el-row>
         <el-col :span="2">
@@ -46,11 +46,16 @@
 </template>
 
 <script>
-
+import uiColors from '../../utils/colors'
 export default {
   name: 'app-nav-menu',
   data () {
-    return {}
+    return {
+      red: '#ff0000',
+      background_color: uiColors.menu.background_color,
+      text_color: uiColors.menu.text_color,
+      active_text_color: uiColors.menu.active_text_color
+    }
   },
   computed: {
     currentRoute () {

@@ -3,9 +3,9 @@
     <el-menu
       :default-active="currentRoute"
       mode="vertical"
-      background-color="#324157"
-      text-color="#bfcbd9"
-      active-text-color="#049eff"
+      :background-color="background_color"
+      :text-color="text_color"
+      :active-text-color="active_text_color"
       router>
       <el-menu-item index="/task">{{ $t('sidebar_jobs') }}</el-menu-item>
       <el-menu-item index="/task/log">{{ $t('sidebar_logs') }}</el-menu-item>
@@ -14,10 +14,17 @@
 </template>
 
 <script>
+
+import uiColors from '../../utils/colors'
 export default {
   name: 'task-sidebar',
   data () {
-    return {}
+    return {
+      red: '#ff0000',
+      background_color: uiColors.menu.background_color,
+      text_color: uiColors.menu.text_color,
+      active_text_color: uiColors.menu.active_text_color
+    }
   },
   computed: {
     currentRoute () {

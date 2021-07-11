@@ -29,15 +29,15 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="search()">搜索</el-button>
+          <el-button type="primary" icon="el-icon-search" plain @click="search()">搜索</el-button>
         </el-form-item>
       </el-form>
       <el-row type="flex" justify="end">
         <el-col :span="3">
-          <el-button type="danger" v-if="this.$store.getters.user.isAdmin" @click="clearLog">清空日志</el-button>
+          <el-button type="danger" icon="el-icon-delete" plain v-if="this.$store.getters.user.isAdmin" @click="clearLog">清空日志</el-button>
         </el-col>
         <el-col :span="2">
-          <el-button type="info" @click="refresh">刷新</el-button>
+          <el-button type="info" icon="el-icon-refresh" plain @click="refresh">刷新</el-button>
         </el-col>
       </el-row>
       <el-pagination
@@ -113,13 +113,13 @@
           label="执行结果"
           width="120" v-if="this.isAdmin">
           <template slot-scope="scope">
-            <el-button type="success"
+            <el-button type="success" plain
                        v-if="scope.row.status === 2"
                        @click="showTaskResult(scope.row)">查看结果</el-button>
-            <el-button type="warning"
+            <el-button type="warning" plain
                        v-if="scope.row.status === 0"
                        @click="showTaskResult(scope.row)" >查看结果</el-button>
-            <el-button type="danger"
+            <el-button type="danger" plain
                        v-if="scope.row.status === 1 && scope.row.protocol === 2"
                        @click="stopTask(scope.row)">停止任务
             </el-button>

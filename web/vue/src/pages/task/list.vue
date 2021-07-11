@@ -49,16 +49,16 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="search()">Search</el-button>
+          <el-button type="primary" icon="el-icon-search" plain @click="search()">{{ $t('action_search') }}</el-button>
         </el-form-item>
       </el-row>
     </el-form>
     <el-row type="flex" justify="end">
       <el-col :span="2">
-        <el-button type="primary" @click="toEdit(null)" v-if="this.$store.getters.user.isAdmin">Add</el-button>
+        <el-button type="primary" icon="el-icon-plus" plain @click="toEdit(null)" v-if="this.$store.getters.user.isAdmin">{{ $t('action_add') }}</el-button>
       </el-col>
       <el-col :span="2">
-        <el-button type="info" @click="refresh">Refresh</el-button>
+        <el-button type="info" icon="el-icon-refresh" plain @click="refresh">{{ $t('action_refresh') }}</el-button>
       </el-col>
     </el-row>
     <el-pagination
@@ -170,13 +170,13 @@
       <el-table-column label="Actions" width="220" v-if="this.isAdmin">
         <template slot-scope="scope">
           <el-row>
-            <el-button type="primary" @click="toEdit(scope.row)">Edit</el-button>
-            <el-button type="success" @click="runTask(scope.row)">RunNow</el-button>
+            <el-button type="primary" plain @click="toEdit(scope.row)">{{$t('action_edit')}}</el-button>
+            <el-button type="success" plain @click="runTask(scope.row)">{{$t('action_run')}}</el-button>
           </el-row>
           <br>
           <el-row>
-            <el-button type="info" @click="jumpToLog(scope.row)">Logs</el-button>
-            <el-button type="danger" @click="remove(scope.row)">Delete</el-button>
+            <el-button type="info" plain @click="jumpToLog(scope.row)">{{$t('action_log')}}</el-button>
+            <el-button type="danger" plain @click="remove(scope.row)">{{$t('action_delete')}}</el-button>
           </el-row>
         </template>
       </el-table-column>
