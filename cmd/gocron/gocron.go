@@ -1,5 +1,6 @@
 // Command gocron
 //go:generate statik -src=../../web/public -dest=../../internal -f
+//go:generate statik -src=../../internal/lang -include=*.json -dest=../../internal/lang -f
 
 package main
 
@@ -96,7 +97,7 @@ func initModule() {
 
 	config, err := setting.Read(app.AppConfig)
 	if err != nil {
-		logger.Fatal("读取应用配置失败", err)
+		logger.Fatal(lang.MsgFailedReadConf, err)
 	}
 	app.Setting = config
 	lang.InitLangResource(app.Setting.Lang)
@@ -154,10 +155,10 @@ func catchSignal() {
 	signal.Notify(c, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM)
 	for {
 		s := <-c
-		logger.Info("收到信号 -- ", s)
+		logger.Info(lang.MsgSignalReceived, s)
 		switch s {
 		case syscall.SIGHUP:
-			logger.Info("收到终端断开信号, 忽略")
+			logger.Info(lang.MsgSignalTerminalEnd)
 		case syscall.SIGINT, syscall.SIGTERM:
 			shutdown()
 		}
@@ -167,16 +168,16 @@ func catchSignal() {
 // 应用退出
 func shutdown() {
 	defer func() {
-		logger.Info("已退出")
+		logger.Info(lang.MsgExitAlready)
 		os.Exit(0)
 	}()
 
 	if !app.Installed {
 		return
 	}
-	logger.Info("应用准备退出")
+	logger.Info(lang.MsgSystemToExit)
 	// 停止所有任务调度
-	logger.Info("停止定时任务调度")
+	logger.Info(lang.MsgStopScheduler)
 	service.ServiceTask.WaitAndExit()
 }
 
@@ -192,10 +193,10 @@ func upgradeIfNeed() {
 	}
 
 	migration := new(models.Migration)
-	logger.Infof("版本升级开始, 当前版本号%d", currentVersionId)
+	logger.Infof(lang.MsgUpgradeVersion, currentVersionId)
 
 	migration.Upgrade(currentVersionId)
 	app.UpdateVersionFile()
 
-	logger.Infof("已升级到最新版本%d", app.VersionId)
+	logger.Infof(lang.MsgUpgradeVersionDone, app.VersionId)
 }

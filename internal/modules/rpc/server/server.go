@@ -1,6 +1,7 @@
 package server
 
 import (
+	"github.com/ouqiang/gocron/internal/modules/lang"
 	"net"
 	"os"
 	"os/signal"
@@ -90,12 +91,12 @@ func Start(addr string, enableTLS bool, certificate auth.Certificate) {
 	signal.Notify(c, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM)
 	for {
 		s := <-c
-		log.Infoln("收到信号 -- ", s)
+		log.Infoln(lang.MsgSignalReceived, s)
 		switch s {
 		case syscall.SIGHUP:
-			log.Infoln("收到终端断开信号, 忽略")
+			log.Infoln(lang.MsgSignalTerminalEnd)
 		case syscall.SIGINT, syscall.SIGTERM:
-			log.Info("应用准备退出")
+			log.Info(lang.MsgSystemToExit)
 			server.GracefulStop()
 			return
 		}

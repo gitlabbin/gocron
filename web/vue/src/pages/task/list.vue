@@ -4,20 +4,20 @@
   <el-main>
     <el-form :inline="true" >
       <el-row>
-        <el-form-item label="JobID">
+        <el-form-item :label="$t('job_id')">
           <el-input v-model.trim="searchParams.id"></el-input>
         </el-form-item>
-        <el-form-item label="JobName">
+        <el-form-item :label="$t('job_name')">
           <el-input v-model.trim="searchParams.name"></el-input>
         </el-form-item>
-        <el-form-item label="Tag">
+        <el-form-item :label="$t('job_tag')">
           <el-input v-model.trim="searchParams.tag"></el-input>
         </el-form-item>
       </el-row>
       <el-row>
-        <el-form-item label="JobType">
+        <el-form-item :label="$t('job_type')">
           <el-select v-model.trim="searchParams.protocol">
-            <el-option label="All" value=""></el-option>
+            <el-option :label="$t('option_all')" value=""></el-option>
             <el-option
               v-for="item in protocolList"
               :key="item.value"
@@ -26,9 +26,9 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="Node">
+        <el-form-item :label="$t('job_node')">
           <el-select v-model.trim="searchParams.host_id">
-            <el-option label="All" value=""></el-option>
+            <el-option :label="$t('option_all')" value=""></el-option>
             <el-option
               v-for="item in hosts"
               :key="item.id"
@@ -37,9 +37,9 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="Status">
+        <el-form-item :label="$t('job_status')">
           <el-select v-model.trim="searchParams.status">
-            <el-option label="All" value=""></el-option>
+            <el-option :label="$t('option_all')" value=""></el-option>
             <el-option
               v-for="item in statusList"
               :key="item.value"
@@ -80,33 +80,33 @@
       <el-table-column type="expand">
         <template slot-scope="scope">
           <el-form label-position="left" inline class="demo-table-expand">
-            <el-form-item label="任务创建时间:">
+            <el-form-item :label="$t('job_create_at')">
               {{scope.row.created | formatTime}} <br>
             </el-form-item>
-            <el-form-item label="JobType:">
+            <el-form-item label="GroupType:">
               {{scope.row.level | formatLevel}} <br>
             </el-form-item>
-            <el-form-item label="单实例运行:">
+            <el-form-item :label="$t('job_single_node')">
                {{scope.row.multi | formatMulti}} <br>
             </el-form-item>
-            <el-form-item label="超时时间:">
+            <el-form-item :label="$t('job_timeout')">
               {{scope.row.timeout | formatTimeout}} <br>
             </el-form-item>
-            <el-form-item label="重试次数:">
+            <el-form-item :label="$t('job_retry_times')">
               {{scope.row.retry_times}} <br>
             </el-form-item>
-            <el-form-item label="重试间隔:">
+            <el-form-item :label="$t('job_retry_internal')">
               {{scope.row.retry_interval | formatRetryTimesInterval}}
             </el-form-item> <br>
-            <el-form-item label="任务节点">
+            <el-form-item :label="$t('job_task_node')">
               <div v-for="item in scope.row.hosts" :key="item.host_id">
                 {{item.alias}} - {{item.name}}:{{item.port}} <br>
               </div>
             </el-form-item> <br>
-            <el-form-item label="命令:" style="width: 100%">
+            <el-form-item :label="$t('job_task_cmd')" style="width: 100%">
               {{scope.row.command}}
             </el-form-item> <br>
-            <el-form-item label="备注" style="width: 100%">
+            <el-form-item :label="$t('job_remark')" style="width: 100%">
               {{scope.row.remark}}
             </el-form-item>
           </el-form>
@@ -114,23 +114,23 @@
       </el-table-column>
       <el-table-column
         prop="id"
-        label="JobID">
+        :label="$t('job_id')">
       </el-table-column>
       <el-table-column
         prop="name"
-        label="Name"
+        :label="$t('job_name')"
       width="150">
       </el-table-column>
       <el-table-column
         prop="tag"
-        label="Tag">
+        :label="$t('job_tag')">
       </el-table-column>
       <el-table-column
         prop="spec"
-        label="cron"
+        :label="$t('job_cron')"
       width="120">
       </el-table-column>
-      <el-table-column label="NextRunOn" width="160">
+      <el-table-column :label="$t('job_next_run')" width="160">
         <template slot-scope="scope">
           {{scope.row.next_run_time | formatTime}}
         </template>
@@ -138,10 +138,10 @@
       <el-table-column
         prop="protocol"
         :formatter="formatProtocol"
-        label="JobType">
+        :label="$t('job_type')">
       </el-table-column>
       <el-table-column
-        label="Status" v-if="this.isAdmin">
+        :label="$t('job_status')" v-if="this.isAdmin">
           <template slot-scope="scope">
             <el-switch
               v-if="scope.row.level === 1"
@@ -154,7 +154,7 @@
             </el-switch>
           </template>
       </el-table-column>
-      <el-table-column label="状态" v-else>
+      <el-table-column :label="$t('job_status')" v-else>
         <template slot-scope="scope">
           <el-switch
             v-if="scope.row.level === 1"
@@ -167,7 +167,7 @@
           </el-switch>
         </template>
       </el-table-column>
-      <el-table-column label="Actions" width="220" v-if="this.isAdmin">
+      <el-table-column :label="$t('job_cmd')" width="220" v-if="this.isAdmin">
         <template slot-scope="scope">
           <el-row>
             <el-button type="primary" plain @click="toEdit(scope.row)">{{$t('action_edit')}}</el-button>
@@ -220,11 +220,11 @@ export default {
       statusList: [
         {
           value: '2',
-          label: '激活'
+          label: this.$t('option_active')
         },
         {
           value: '1',
-          label: '停止'
+          label: this.$t('option_stopped')
         }
       ]
     }

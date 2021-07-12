@@ -29,5 +29,26 @@
   "action_search": "Search",
   "action_log": "Logs",
   "action_add": "Add",
-  "action_refresh": "Refresh"
+  "action_refresh": "Refresh",
+  "job_id": "Job ID",
+  "job_name": "Job Name",
+  "job_tag": "Job Tag",
+  "job_type": "Type",
+  "job_node": "Node",
+  "job_status": "Status",
+  "job_cmd": "Action",
+  "job_next_run": "Next Run",
+  "job_cron": "cron",
+  "option_all": "all",
+  "option_active": "active",
+  "option_stopped": "stopped",
+  "job_create_at": "Created at:",
+  "job_single_node": "Single instance:",
+  "job_timeout": "Timeout:",
+  "job_retry_times": "Retry times:",
+  "job_retry_internal": "Retry interval:",
+  "job_task_node": "Job node:",
+  "job_task_cmd": "Task cmd:",
+  "job_remark": "Description:"
+
 }

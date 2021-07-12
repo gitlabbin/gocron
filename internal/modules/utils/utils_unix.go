@@ -28,7 +28,7 @@ func ExecShell(ctx context.Context, command string) (string, error) {
 	go func() {
 		output, err := cmd.CombinedOutput()
 		resultChan <- Result{string(output), err}
-		log.Infof("shell routine down.... %v", err)
+		log.Infof("shell Routine done.... %v", err)
 	}()
 
 	select {
@@ -77,7 +77,7 @@ func ExecShellPipe(ctx context.Context, command string) (string, error) {
 
 		err = cmd.Wait()
 		resultChan <- Result{string(buf.Bytes()), err}
-		log.Infof("shell routine down.... %v", err)
+		log.Infof("shell Routine done.... %v", err)
 	}()
 
 	select {

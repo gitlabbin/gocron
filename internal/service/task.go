@@ -2,6 +2,7 @@ package service
 
 import (
 	"fmt"
+	"github.com/ouqiang/gocron/internal/modules/lang"
 	"net/http"
 	"strconv"
 	"strings"
@@ -112,7 +113,7 @@ func (task Task) Initialize() {
 	taskCount = TaskCount{sync.WaitGroup{}, make(chan struct{})}
 	go taskCount.Wait()
 
-	logger.Info("开始初始化定时任务")
+	logger.Info(lang.MsgSchedulerToInit)
 	taskModel := new(models.Task)
 	taskNum := 0
 	page := 1
@@ -121,7 +122,7 @@ func (task Task) Initialize() {
 	for page < maxPage {
 		taskList, err := taskModel.ActiveList(page, pageSize)
 		if err != nil {
-			logger.Fatalf("定时任务初始化#获取任务列表错误: %s", err)
+			logger.Fatalf(lang.MsgSchedulerInitErrorJobs, err)
 		}
 		if len(taskList) == 0 {
 			break
@@ -132,7 +133,7 @@ func (task Task) Initialize() {
 		}
 		page++
 	}
-	logger.Infof("定时任务初始化完成, 共%d个定时任务添加到调度器", taskNum)
+	logger.Infof(lang.MsgSchedulerInitDone, taskNum)
 }
 
 // 批量添加任务

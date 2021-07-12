@@ -1,0 +1,23 @@
+{
+  "hello_world": "Hello World",
+  "msg_log_fmt": "#%s#%s#line%d#",
+  "timeout": "job timeout, force to exit",
+  "manual_cancel": "canceled manually",
+  "node_unreachable": "can't reach remote node",
+  "msg_failed_read_conf": "failed to read config file",
+  "msg_signal_received": "Signal Received, --",
+  "msg_signal_terminal_end": "Terminal ending signal, ignore it",
+  "msg_exit_already": "Exit already",
+  "msg_system_to_exit": "System will exit",
+  "msg_stop_scheduler": "Stop scheduler",
+  "msg_upgrade_version": "Version upgrade start, Current Version: %d",
+  "msg_upgrade_version_done": "Already upgraded to latest version: %d",
+  "msg_scheduler_to_init": "Scheduler start initialize jobs",
+  "msg_scheduler_init_error_jobs": "Scheduler start initialize#Failed to get jobs list: %s",
+  "msg_scheduler_init_done": "Scheduler initialized done, total %d jobs add into scheduler",
+  "messages": {
+    "description": "The number of messages a person has",
+    "one": "{{.Name}} has {{.Count}} message.",
+    "other": "{{.Name}} has {{.Count}} messages."
+  }
+}
