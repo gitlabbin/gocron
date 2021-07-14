@@ -15,6 +15,26 @@
   "msg_scheduler_to_init": "Scheduler start initialize jobs",
   "msg_scheduler_init_error_jobs": "Scheduler start initialize#Failed to get jobs list: %s",
   "msg_scheduler_init_done": "Scheduler initialized done, total %d jobs add into scheduler",
+
+  "msg_not_allow_subtask_schedule": "Failed add task#SubTask not allowed add to scheduler#Task Id-%d",
+  "msg_not_support_protocol_task_to_job": "Failed to create Job for task, protocol not support#",
+  "msg_failed_add_task_to_scheduler": "Failed to add task to scheduler#",
+  "msg_http_status_not_200": "HTTP status not 200-->%d",
+  "msg_node_error_message": "Node: [%s-%s:%d]\n%s\n%s\n\n",
+  "msg_job_start": "Start job#%s#CMD-%s",
+  "msg_job_done": "Job done#%s#CMD-%s",
+  "msg_job_start_fail_on_log": "Job start#Failed to write log-",
+  "msg_job_cmd": "Job CMD-%s",
+  "msg_job_end_update_log_failed": "Job end#Failed to update log-",
+  "msg_parent_failed_child_would_not_run": "Parent and child dependency, Parent failed, child would to run#Main Job ID-%d",
+  "msg_failed_get_dependency_job": "Failed to get dependency job#Main Job ID-%d#%s",
+  "msg_dependency_job_empty": "Dependency job list empty#Main Job ID-%d",
+  "msg_dependency_job": "Dependency Job(Main job ID-%d)",
+  "msg_job_failed": "Job failed#Job id-%d#Retry %d times #Output-%s#Error-%s",
+
+  "status_failed": "Failed",
+  "status_succeed": "Succeed",
+
   "messages": {
     "description": "The number of messages a person has",
     "one": "{{.Name}} has {{.Count}} message.",

@@ -3,10 +3,10 @@
     <el-main>
       <el-row type="flex" justify="end">
         <el-col :span="2">
-          <el-button type="primary"  @click="toEdit(null)">新增</el-button>
+          <el-button type="primary" icon="el-icon-plus" plain @click="toEdit(null)">{{ $t('action_add') }}</el-button>
         </el-col>
         <el-col :span="2">
-          <el-button type="info" @click="refresh">刷新</el-button>
+          <el-button type="info" icon="el-icon-refresh" plain @click="refresh">{{ $t('action_refresh') }}</el-button>
         </el-col>
       </el-row>
       <el-pagination
@@ -26,23 +26,23 @@
         style="width: 100%">
         <el-table-column
           prop="id"
-          label="用户id">
+          :label="$t('userId')">
         </el-table-column>
         <el-table-column
           prop="name"
-          label="用户名">
+          :label="$t('username')">
         </el-table-column>
         <el-table-column
           prop="email"
-          label="邮箱">
+          :label="$t('email')">
         </el-table-column>
         <el-table-column
           prop="is_admin"
           :formatter="formatRole"
-          label="角色">
+          :label="$t('role')">
         </el-table-column>
         <el-table-column
-          label="状态">
+          :label="$t('user_status')">
           <template slot-scope="scope">
             <el-switch
               v-model="scope.row.status"
@@ -54,12 +54,12 @@
             </el-switch>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="300" v-if="this.isAdmin">
+        <el-table-column :label="$t('action')" width="300" v-if="this.isAdmin">
           <template slot-scope="scope">
             <el-row>
-              <el-button type="primary" @click="toEdit(scope.row)">编辑</el-button>
-              <el-button type="success" @click="editPassword(scope.row)">修改密码</el-button>
-              <el-button type="danger" @click="remove(scope.row)">删除</el-button>
+              <el-button type="primary" plain @click="toEdit(scope.row)">{{ $t('action_edit') }}</el-button>
+              <el-button type="success" plain @click="editPassword(scope.row)">{{ $t('change_password') }}</el-button>
+              <el-button type="danger" plain @click="remove(scope.row)">{{ $t('action_delete') }}</el-button>
             </el-row>
             <br>
           </template>
@@ -97,9 +97,9 @@ export default {
     },
     formatRole (row, col) {
       if (row[col.property] === 1) {
-        return '管理员'
+        return this.$t('admin')
       }
-      return '普通用户'
+      return this.$t('user')
     },
     changePage (page) {
       this.searchParams.page = page
@@ -136,7 +136,7 @@ export default {
     },
     refresh () {
       this.search(() => {
-        this.$message.success('刷新成功')
+        this.$message.success(this.$t('refresh_done'))
       })
     },
     editPassword (item) {

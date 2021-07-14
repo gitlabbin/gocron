@@ -76,7 +76,14 @@ export default {
 </script>
 <style scoped lang='scss'>
 .el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 100%;
   min-height: 60px;
+  position:fixed; /* fixing the position takes it out of html flow - knows
+                   nothing about where to locate itself except by browser
+                   coordinates */
+  left:0;           /* top left corner should start at leftmost spot */
+  top:0;            /* top left corner should start at topmost spot */
+  width:100vw;      /* take up the full browser width */
+  z-index:200;  /* high z index so other content scrolls underneath */
+  border-color: var(--background_color);
 }
 </style>

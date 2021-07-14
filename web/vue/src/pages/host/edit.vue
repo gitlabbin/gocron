@@ -5,16 +5,16 @@
         <el-form-item>
           <el-input v-model="form.id" type="hidden"></el-input>
         </el-form-item>
-        <el-form-item label="节点名称" prop="alias">
+        <el-form-item :label="$t('node_name')" prop="alias">
           <el-input v-model="form.alias"></el-input>
         </el-form-item>
-        <el-form-item label="主机名" prop="name">
+        <el-form-item :label="$t('node_host')" prop="name">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
-        <el-form-item label="端口" prop="port">
+        <el-form-item :label="$t('node_host_port')" prop="port">
           <el-input v-model.number="form.port"></el-input>
         </el-form-item>
-        <el-form-item label="备注">
+        <el-form-item :label="$t('node_description')">
           <el-input
             type="textarea"
             :rows="5"
@@ -24,8 +24,8 @@
           </el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submit()">保存</el-button>
-          <el-button @click="cancel">取消</el-button>
+          <el-button type="primary" @click="submit()">{{ $t('action_save') }}</el-button>
+          <el-button @click="cancel">{{ $t('action_cancel') }}</el-button>
         </el-form-item>
       </el-form>
     </el-main>
@@ -47,14 +47,14 @@ export default {
       },
       formRules: {
         name: [
-          {required: true, message: '请输入主机名', trigger: 'blur'}
+          {required: true, message: this.$t('msg_input_host_name'), trigger: 'blur'}
         ],
         port: [
-          {required: true, message: '请输入端口', trigger: 'blur'},
-          {type: 'number', message: '端口无效'}
+          {required: true, message: this.$t('msg_input_port'), trigger: 'blur'},
+          {type: 'number', message: this.$t('msg_invalid_port')}
         ],
         alias: [
-          {required: true, message: '请输入节点名称', trigger: 'blur'}
+          {required: true, message: this.$t('msg_input_node_name'), trigger: 'blur'}
         ]
       }
     }
@@ -66,7 +66,7 @@ export default {
     }
     hostService.detail(id, (data) => {
       if (!data) {
-        this.$message.error('数据不存在')
+        this.$message.error(this.$t('msg_no_data'))
         this.cancel()
         return
       }

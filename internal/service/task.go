@@ -152,12 +152,12 @@ func (task Task) RemoveAndAdd(taskModel models.Task) {
 // 添加任务
 func (task Task) Add(taskModel models.Task) {
 	if taskModel.Level == models.TaskLevelChild {
-		logger.Errorf("添加任务失败#不允许添加子任务到调度器#任务Id-%d", taskModel.Id)
+		logger.Errorf(lang.MsgNotAllowSubtaskSchedule, taskModel.Id)
 		return
 	}
 	taskFunc := createJob(taskModel)
 	if taskFunc == nil {
-		logger.Error("创建任务处理Job失败,不支持的任务协议#", taskModel.Protocol)
+		logger.Error(lang.MsgNotSupportProtocolTaskToJob, taskModel.Protocol)
 		return
 	}
 
@@ -166,7 +166,7 @@ func (task Task) Add(taskModel models.Task) {
 		serviceCron.AddFunc(taskModel.Spec, taskFunc, cronName)
 	})
 	if err != nil {
-		logger.Error("添加任务到调度器失败#", err)
+		logger.Error(lang.MsgFailedAddTaskToScheduler, err)
 	}
 }
 
@@ -234,7 +234,7 @@ func (h *HTTPHandler) Run(taskModel models.Task, taskUniqueId int64) (result str
 	}
 	// 返回状态码非200，均为失败
 	if resp.StatusCode != http.StatusOK {
-		return resp.Body, fmt.Errorf("HTTP状态码非200-->%d", resp.StatusCode)
+		return resp.Body, fmt.Errorf(lang.MsgHttpStatusNot200, resp.StatusCode)
 	}
 
 	return resp.Body, err
@@ -256,7 +256,7 @@ func (h *RPCHandler) Run(taskModel models.Task, taskUniqueId int64) (result stri
 			if err != nil {
 				errorMessage = err.Error()
 			}
-			outputMessage := fmt.Sprintf("主机: [%s-%s:%d]\n%s\n%s\n\n",
+			outputMessage := fmt.Sprintf(lang.MsgNodeErrorMessage,
 				th.Alias, th.Name, th.Port, errorMessage, output,
 			)
 			resultChan <- TaskResult{Err: err, Result: outputMessage}
@@ -339,9 +339,9 @@ func createJob(taskModel models.Task) cron.FuncJob {
 		concurrencyQueue.Add()
 		defer concurrencyQueue.Done()
 
-		logger.Infof("开始执行任务#%s#命令-%s", taskModel.Name, taskModel.Command)
+		logger.Infof(lang.MsgJobStart, taskModel.Name, taskModel.Command)
 		taskResult := execJob(handler, taskModel, taskLogId)
-		logger.Infof("任务完成#%s#命令-%s", taskModel.Name, taskModel.Command)
+		logger.Infof(lang.MsgJobDone, taskModel.Name, taskModel.Command)
 		afterExecJob(taskModel, taskResult, taskLogId)
 	}
 
@@ -368,10 +368,10 @@ func beforeExecJob(taskModel models.Task) (taskLogId int64) {
 	}
 	taskLogId, err := createTaskLog(taskModel, models.Running)
 	if err != nil {
-		logger.Error("任务开始执行#写入任务日志失败-", err)
+		logger.Error(lang.MsgJobStartFailOnLog, err)
 		return
 	}
-	logger.Debugf("任务命令-%s", taskModel.Command)
+	logger.Debugf(lang.MsgJobCmd, taskModel.Command)
 
 	return taskLogId
 }
@@ -380,7 +380,7 @@ func beforeExecJob(taskModel models.Task) (taskLogId int64) {
 func afterExecJob(taskModel models.Task, taskResult TaskResult, taskLogId int64) {
 	_, err := updateTaskLog(taskLogId, taskResult)
 	if err != nil {
-		logger.Error("任务结束#更新任务日志失败-", err)
+		logger.Error(lang.MsgJobEndUpdateLogFailed, err)
 	}
 
 	// 发送邮件
@@ -404,7 +404,7 @@ func execDependencyTask(taskModel models.Task, taskResult TaskResult) {
 
 	// 父子任务关系为强依赖, 父任务执行失败, 不执行依赖任务
 	if taskModel.DependencyStatus == models.TaskDependencyStatusStrong && taskResult.Err != nil {
-		logger.Infof("父子任务为强依赖关系, 父任务执行失败, 不运行依赖任务#主任务ID-%d", taskModel.Id)
+		logger.Infof(lang.MsgParentFailedChildWouldNotRun, taskModel.Id)
 		return
 	}
 
@@ -412,14 +412,14 @@ func execDependencyTask(taskModel models.Task, taskResult TaskResult) {
 	model := new(models.Task)
 	tasks, err := model.GetDependencyTaskList(dependencyTaskId)
 	if err != nil {
-		logger.Errorf("获取依赖任务失败#主任务ID-%d#%s", taskModel.Id, err.Error())
+		logger.Errorf(lang.MsgFailedGetDependencyJob, taskModel.Id, err.Error())
 		return
 	}
 	if len(tasks) == 0 {
-		logger.Errorf("依赖任务列表为空#主任务ID-%d", taskModel.Id)
+		logger.Errorf(lang.MsgDependencyJobEmpty, taskModel.Id)
 	}
 	for _, task := range tasks {
-		task.Spec = fmt.Sprintf("依赖任务(主任务ID-%d)", taskModel.Id)
+		task.Spec = fmt.Sprintf(lang.MsgDependencyJob, taskModel.Id)
 		ServiceTask.Run(task)
 	}
 }
@@ -445,9 +445,9 @@ func SendNotification(taskModel models.Task, taskResult TaskResult) {
 		return
 	}
 	if taskResult.Err != nil {
-		statusName = "失败"
+		statusName = lang.StatusFailed
 	} else {
-		statusName = "成功"
+		statusName = lang.StatusSucceed
 	}
 	// 发送通知
 	msg := notify.Message{
@@ -484,7 +484,7 @@ func execJob(handler Handler, taskModel models.Task, taskUniqueId int64) TaskRes
 		}
 		i++
 		if i < execTimes {
-			logger.Warnf("任务执行失败#任务id-%d#重试第%d次#输出-%s#错误-%s", taskModel.Id, i, output, err.Error())
+			logger.Warnf(lang.MsgJobFailed, taskModel.Id, i, output, err.Error())
 			if taskModel.RetryInterval > 0 {
 				time.Sleep(time.Duration(taskModel.RetryInterval) * time.Second)
 			} else {

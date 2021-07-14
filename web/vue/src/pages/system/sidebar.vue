@@ -7,8 +7,8 @@
       :text-color="text_color"
       :active-text-color="active_text_color"
       router>
-      <el-menu-item index="/system">Notification</el-menu-item>
-      <el-menu-item index="/system/login-log">LoginLog</el-menu-item>
+      <el-menu-item index="/system">{{ $t('notification') }}</el-menu-item>
+      <el-menu-item index="/system/login-log">{{ $t('login_log') }}</el-menu-item>
     </el-menu>
   </el-aside>
 </template>

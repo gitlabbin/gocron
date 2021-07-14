@@ -43,9 +43,9 @@
           </el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submit()">保存</el-button>
+          <el-button type="primary" icon="el-icon-document" plain @click="submit()">保存</el-button>
         </el-form-item>
-        <el-button type="primary" @click="createUser">新增用户</el-button> <br><br>
+        <el-button type="primary" icon="el-icon-plus" plain @click="createUser">新增用户</el-button> <br><br>
         <h3>通知用户</h3>
         <el-tag
           v-for="item in receivers"

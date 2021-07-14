@@ -1,16 +1,16 @@
 <template>
   <el-container>
     <el-main>
-      <el-form ref="form" :model="form" :rules="formRules" label-width="100px" style="width: 500px;">
-        <el-form-item label="新密码" prop="new_password">
+      <el-form ref="form" :model="form" :rules="formRules" label-width="120px" style="width: 500px;">
+        <el-form-item :label="$t('new_password')" prop="new_password">
           <el-input v-model="form.new_password" type="password"></el-input>
         </el-form-item>
-        <el-form-item label="确认新密码" prop="confirm_new_password">
+        <el-form-item :label="$t('confirm_new_password')" prop="confirm_new_password">
           <el-input v-model="form.confirm_new_password" type="password"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submit()">保存</el-button>
-          <el-button @click="cancel">取消</el-button>
+          <el-button type="primary" @click="submit()">{{ $t('action_save') }}</el-button>
+          <el-button @click="cancel">{{ $t('action_cancel') }}</el-button>
         </el-form-item>
       </el-form>
     </el-main>
@@ -30,10 +30,10 @@ export default {
       },
       formRules: {
         new_password: [
-          {required: true, message: '请输入新密码', trigger: 'blur'}
+          {required: true, message: this.$t('msg_input_new_password'), trigger: 'blur'}
         ],
         confirm_new_password: [
-          {required: true, message: '请再次输入新密码', trigger: 'blur'}
+          {required: true, message: this.$t('msg_input_new_password_again'), trigger: 'blur'}
         ]
       }
     }

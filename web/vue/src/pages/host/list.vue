@@ -3,23 +3,24 @@
     <el-main>
       <el-form :inline="true" >
         <el-row>
-          <el-form-item label="NodeID">
+          <el-form-item :label="$t('node_id')">
             <el-input v-model.trim="searchParams.id"></el-input>
           </el-form-item>
-          <el-form-item label="Host">
+          <el-form-item :label="$t('node_host')">
             <el-input v-model.trim="searchParams.name"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="search()">Search</el-button>
+            <el-button type="primary" icon="el-icon-search" plain @click="search()">{{ $t('action_search') }}</el-button>
           </el-form-item>
         </el-row>
       </el-form>
       <el-row type="flex" justify="end">
         <el-col :span="2">
-          <el-button type="primary" v-if="this.$store.getters.user.isAdmin"  @click="toEdit(null)">新增</el-button>
+          <el-button type="primary" icon="el-icon-plus" plain v-if="this.$store.getters.user.isAdmin"  @click="toEdit(null)">
+            {{ $t('action_add') }}</el-button>
         </el-col>
         <el-col :span="2">
-          <el-button type="info" @click="refresh">Refresh</el-button>
+          <el-button type="info" icon="el-icon-refresh" plain @click="refresh">{{ $t('action_refresh') }}</el-button>
         </el-col>
       </el-row>
       <el-pagination
@@ -55,7 +56,7 @@
         </el-table-column>
         <el-table-column :label="$t('view_jobs')">
           <template slot-scope="scope">
-            <el-button type="success" @click="toTasks(scope.row)">查看任务</el-button>
+            <el-button type="success" plain @click="toTasks(scope.row)">{{ $t('view_jobs') }}</el-button>
           </template>
         </el-table-column>
         <el-table-column
@@ -65,9 +66,9 @@
         <el-table-column :label="$t('node_action')" width="300" v-if="this.isAdmin">
           <template slot-scope="scope">
             <el-row>
-              <el-button type="primary" @click="toEdit(scope.row)">{{ $t('node_edit') }}</el-button>
-              <el-button type="info" @click="ping(scope.row)">{{ $t('node_ping') }}</el-button>
-              <el-button type="danger" @click="remove(scope.row)">删除</el-button>
+              <el-button type="primary" plain @click="toEdit(scope.row)">{{ $t('node_edit') }}</el-button>
+              <el-button type="info" plain @click="ping(scope.row)">{{ $t('node_ping') }}</el-button>
+              <el-button type="danger" plain @click="remove(scope.row)">{{ $t('action_delete') }}</el-button>
             </el-row>
             <br>
           </template>

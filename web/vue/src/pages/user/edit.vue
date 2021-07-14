@@ -5,35 +5,35 @@
         <el-form-item>
           <el-input v-model="form.id" type="hidden"></el-input>
         </el-form-item>
-        <el-form-item label="用户名" prop="name">
+        <el-form-item :label="$t('username')" prop="name">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
-        <el-form-item label="邮箱" prop="email">
+        <el-form-item :label="$t('email')" prop="email">
           <el-input v-model="form.email"></el-input>
         </el-form-item>
         <template v-if="!form.id">
-          <el-form-item label="密码" prop="password">
+          <el-form-item :label="$t('password')" prop="password">
             <el-input v-model="form.password" type="password"></el-input>
           </el-form-item>
-          <el-form-item label="确认密码" prop="confirm_password">
+          <el-form-item :label="$t('confirm_password')" prop="confirm_password">
             <el-input v-model="form.confirm_password" type="password"></el-input>
           </el-form-item>
         </template>
-        <el-form-item label="角色" prop="is_admin">
+        <el-form-item :label="$t('role')" prop="is_admin">
           <el-radio-group v-model="form.is_admin">
-            <el-radio :label="0">普通用户</el-radio>
-            <el-radio :label="1">管理员</el-radio>
+            <el-radio :label="0">{{ $t('user') }}</el-radio>
+            <el-radio :label="1">{{ $t('admin') }}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="状态" prop="status">
+        <el-form-item :label="$t('user_status')" prop="status">
           <el-radio-group v-model="form.status">
-            <el-radio :label="1">启用</el-radio>
-            <el-radio :label="0">禁用</el-radio>
+            <el-radio :label="1">{{ $t('enable') }}</el-radio>
+            <el-radio :label="0">{{ $t('disable') }}</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submit()">保存</el-button>
-          <el-button @click="cancel">取消</el-button>
+          <el-button type="primary" @click="submit()">{{ $t('action_save') }}</el-button>
+          <el-button @click="cancel">{{ $t('action_cancel') }}</el-button>
         </el-form-item>
       </el-form>
     </el-main>

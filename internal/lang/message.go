@@ -21,18 +21,35 @@ var (
 )
 
 var (
-	MsgFailedReadConf         string
-	MsgSignalReceived         string
-	MsgSignalTerminalEnd      string
-	MsgExitAlready            string
-	MsgSystemToExit           string
-	MsgStopScheduler          string
-	MsgUpgradeVersion         string
-	MsgUpgradeVersionDone     string
-	MsgSchedulerToInit        string
-	MsgSchedulerInitErrorJobs string
-	MsgSchedulerInitDone      string
-	MsgLogFmt                 string
+	MsgFailedReadConf               string
+	MsgSignalReceived               string
+	MsgSignalTerminalEnd            string
+	MsgExitAlready                  string
+	MsgSystemToExit                 string
+	MsgStopScheduler                string
+	MsgUpgradeVersion               string
+	MsgUpgradeVersionDone           string
+	MsgSchedulerToInit              string
+	MsgSchedulerInitErrorJobs       string
+	MsgSchedulerInitDone            string
+	MsgLogFmt                       string
+	MsgNotAllowSubtaskSchedule      string
+	MsgNotSupportProtocolTaskToJob  string
+	MsgFailedAddTaskToScheduler     string
+	MsgHttpStatusNot200             string
+	MsgNodeErrorMessage             string
+	MsgJobStart                     string
+	MsgJobDone                      string
+	MsgJobStartFailOnLog            string
+	MsgJobCmd                       string
+	MsgJobEndUpdateLogFailed        string
+	MsgParentFailedChildWouldNotRun string
+	MsgFailedGetDependencyJob       string
+	MsgDependencyJobEmpty           string
+	MsgDependencyJob                string
+	StatusFailed                    string
+	StatusSucceed                   string
+	MsgJobFailed                    string
 )
 
 var statikFS http.FileSystem
@@ -164,4 +181,90 @@ func InitLangResource(lang string) {
 		MessageID: "msg_log_fmt",
 	})
 	MsgLogFmt = msgLogFmt
+
+	msgNotAllowSubtaskSchedule := loc.MustLocalize(&i18n.LocalizeConfig{
+		MessageID: "msg_not_allow_subtask_schedule",
+	})
+	MsgNotAllowSubtaskSchedule = msgNotAllowSubtaskSchedule
+
+	msgNotSupportProtocolTaskToJob := loc.MustLocalize(&i18n.LocalizeConfig{
+		MessageID: "msg_not_support_protocol_task_to_job",
+	})
+	MsgNotSupportProtocolTaskToJob = msgNotSupportProtocolTaskToJob
+
+	msgFailedAddTaskToScheduler := loc.MustLocalize(&i18n.LocalizeConfig{
+		MessageID: "msg_failed_add_task_to_scheduler",
+	})
+	MsgFailedAddTaskToScheduler = msgFailedAddTaskToScheduler
+
+	msgHttpStatusNot200 := loc.MustLocalize(&i18n.LocalizeConfig{
+		MessageID: "msg_http_status_not_200",
+	})
+	MsgHttpStatusNot200 = msgHttpStatusNot200
+
+	msgNodeErrorMessage := loc.MustLocalize(&i18n.LocalizeConfig{
+		MessageID: "msg_node_error_message",
+	})
+	MsgNodeErrorMessage = msgNodeErrorMessage
+
+	msgJobStart := loc.MustLocalize(&i18n.LocalizeConfig{
+		MessageID: "msg_job_start",
+	})
+	MsgJobStart = msgJobStart
+
+	msgJobDone := loc.MustLocalize(&i18n.LocalizeConfig{
+		MessageID: "msg_job_done",
+	})
+	MsgJobDone = msgJobDone
+
+	msgJobStartFailOnLog := loc.MustLocalize(&i18n.LocalizeConfig{
+		MessageID: "msg_job_start_fail_on_log",
+	})
+	MsgJobStartFailOnLog = msgJobStartFailOnLog
+
+	msgJobCmd := loc.MustLocalize(&i18n.LocalizeConfig{
+		MessageID: "msg_job_cmd",
+	})
+	MsgJobCmd = msgJobCmd
+
+	msgJobEndUpdateLogFailed := loc.MustLocalize(&i18n.LocalizeConfig{
+		MessageID: "msg_job_end_update_log_failed",
+	})
+	MsgJobEndUpdateLogFailed = msgJobEndUpdateLogFailed
+
+	msgParentFailedChildWouldNotRun := loc.MustLocalize(&i18n.LocalizeConfig{
+		MessageID: "msg_parent_failed_child_would_not_run",
+	})
+	MsgParentFailedChildWouldNotRun = msgParentFailedChildWouldNotRun
+
+	msgFailedGetDependencyJob := loc.MustLocalize(&i18n.LocalizeConfig{
+		MessageID: "msg_failed_get_dependency_job",
+	})
+	MsgFailedGetDependencyJob = msgFailedGetDependencyJob
+
+	msgDependencyJobEmpty := loc.MustLocalize(&i18n.LocalizeConfig{
+		MessageID: "msg_dependency_job_empty",
+	})
+	MsgDependencyJobEmpty = msgDependencyJobEmpty
+
+	msgDependencyJob := loc.MustLocalize(&i18n.LocalizeConfig{
+		MessageID: "msg_dependency_job",
+	})
+	MsgDependencyJob = msgDependencyJob
+
+	statusFailed := loc.MustLocalize(&i18n.LocalizeConfig{
+		MessageID: "status_failed",
+	})
+	StatusFailed = statusFailed
+
+	statusSucceed := loc.MustLocalize(&i18n.LocalizeConfig{
+		MessageID: "status_succeed",
+	})
+	StatusSucceed = statusSucceed
+
+	msgJobFailed := loc.MustLocalize(&i18n.LocalizeConfig{
+		MessageID: "msg_job_failed",
+	})
+	MsgJobFailed = msgJobFailed
+
 }

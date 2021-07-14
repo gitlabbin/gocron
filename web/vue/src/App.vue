@@ -74,6 +74,7 @@ export default {
   .el-aside .el-menu {
     height: 100%;
     background-color: var(--background_color);
+    border-color: var(--background_color);
     text-color: var(--text_color);
     active-text-color: var(--active_text_color);
   }

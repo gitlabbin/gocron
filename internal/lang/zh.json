@@ -16,6 +16,25 @@
   "msg_scheduler_init_error_jobs": "定时任务初始化#获取任务列表错误: %s",
   "msg_scheduler_init_done": "定时任务初始化完成, 共%d个定时任务添加到调度器",
 
+  "msg_not_allow_subtask_schedule": "添加任务失败#不允许添加子任务到调度器#任务Id-%d",
+  "msg_not_support_protocol_task_to_job": "创建任务处理Job失败,不支持的任务协议#",
+  "msg_failed_add_task_to_scheduler": "添加任务到调度器失败#",
+  "msg_http_status_not_200": "HTTP状态码非200-->%d",
+  "msg_node_error_message": "主机: [%s-%s:%d]\n%s\n%s\n\n",
+  "msg_job_start": "开始执行任务#%s#命令-%s",
+  "msg_job_done": "任务完成#%s#命令-%s",
+  "msg_job_start_fail_on_log": "任务开始执行#写入任务日志失败-",
+  "msg_job_cmd": "任务命令-%s",
+  "msg_job_end_update_log_failed": "任务结束#更新任务日志失败-",
+  "msg_parent_failed_child_would_not_run": "父子任务为强依赖关系, 父任务执行失败, 不运行依赖任务#主任务ID-%d",
+  "msg_failed_get_dependency_job": "获取依赖任务失败#主任务ID-%d#%s",
+  "msg_dependency_job_empty": "依赖任务列表为空#主任务ID-%d",
+  "msg_dependency_job": "依赖任务(主任务ID-%d)",
+  "msg_job_failed": "任务执行失败#任务id-%d#重试第%d次#输出-%s#错误-%s",
+
+  "status_failed": "失败",
+  "status_succeed": "成功",
+
   "messages": {
     "description": "The number of messages a person has",
     "one": "{{.Name}} 有 {{.Count}} 条信息.",

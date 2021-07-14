@@ -3,6 +3,8 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/ouqiang/gocron/blob/master/LICENSE)
 [![Release](https://img.shields.io/github/release/ouqiang/gocron.svg?label=Release)](https://github.com/ouqiang/gocron/releases)
 
+*Fork of [ouqiang/gocron](https://github.com/ouqiang/gocron)*
+
 # Description
 Using Golang to implement a light schedule job running and managing system, it can replace Linux-crontab [Check doc](https://github.com/ouqiang/gocron/wiki)
 
@@ -26,10 +28,10 @@ Original `DelayJob` was put it into another project [DelayQueue](https://github.
 ### Diagram
 ```shell
 
-     Scheduler -----> Node 1
-                    | Node 2
-                    | Node 3
-                    | Node 4
+     Scheduler ----|--> Node 1
+                   |--> Node 2
+                   |--> Node 3
+
 ```
     
 ### OS system

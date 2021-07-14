@@ -17,10 +17,10 @@
           </el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submit">保存</el-button>
+          <el-button type="primary" icon="el-icon-document" plain @click="submit">保存</el-button>
         </el-form-item>
         <h3>Channel</h3>
-        <el-button type="primary" @click="createChannel">新增Channel</el-button> <br><br>
+        <el-button type="primary" icon="el-icon-plus" plain @click="createChannel">新增Channel</el-button> <br><br>
         <el-tag
           v-for="item in channels"
           :key="item.id"
