@@ -1,7 +1,7 @@
 package server
 
 import (
-	"github.com/ouqiang/gocron/internal/modules/lang"
+	"github.com/ouqiang/gocron/internal/lang"
 	"net"
 	"os"
 	"os/signal"

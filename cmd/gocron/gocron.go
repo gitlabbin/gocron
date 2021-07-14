@@ -5,7 +5,7 @@
 package main
 
 import (
-	"github.com/ouqiang/gocron/internal/modules/lang"
+	"github.com/ouqiang/gocron/internal/lang"
 	"os"
 	"os/signal"
 	"syscall"

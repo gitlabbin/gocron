@@ -2,7 +2,7 @@ package logger
 
 import (
 	"fmt"
-	"github.com/ouqiang/gocron/internal/modules/lang"
+	"github.com/ouqiang/gocron/internal/lang"
 	"os"
 	"runtime"
 

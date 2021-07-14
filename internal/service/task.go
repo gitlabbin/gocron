@@ -2,7 +2,7 @@ package service
 
 import (
 	"fmt"
-	"github.com/ouqiang/gocron/internal/modules/lang"
+	"github.com/ouqiang/gocron/internal/lang"
 	"net/http"
 	"strconv"
 	"strings"

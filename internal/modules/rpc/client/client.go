@@ -3,7 +3,7 @@ package client
 import (
 	"errors"
 	"fmt"
-	"github.com/ouqiang/gocron/internal/modules/lang"
+	"github.com/ouqiang/gocron/internal/lang"
 	"sync"
 	"time"
 

@@ -7,6 +7,7 @@ import (
 	"golang.org/x/text/language"
 	"io/ioutil"
 	"net/http"
+	"os"
 
 	_ "github.com/ouqiang/gocron/internal/lang/statik"
 	"github.com/rakyll/statik/fs"
@@ -59,21 +60,33 @@ func loadStatFs(path string) []byte {
 	return contents
 }
 
+func listBundles() []os.FileInfo {
+	r, err := statikFS.Open("/")
+	if err != nil {
+		log.Fatal("Failed to read lang json dir / err %v", err)
+		return nil
+	}
+	defer r.Close()
+
+	list, err := r.Readdir(-1)
+	if err != nil {
+		log.Errorf("error reading directory: %v", err)
+		return nil
+	} else {
+		return list
+	}
+}
+
 func InitLangResource(lang string) {
 	bundle := i18n.NewBundle(language.English)
-
-	// Load lang resources
 	bundle.RegisterUnmarshalFunc("json", json.Unmarshal)
-	//bundle.MustLoadMessageFile("en.json")
-	//bundle.MustLoadMessageFile("zh.json")
 
-	if _, err := bundle.ParseMessageFileBytes(loadStatFs("/en.json"), "en.json"); err != nil {
-		panic(err)
+	for _, json := range listBundles() {
+		content := loadStatFs("/" + json.Name())
+		if _, err := bundle.ParseMessageFileBytes(content, json.Name()); err != nil {
+			panic(err)
+		}
 	}
-	if _, err := bundle.ParseMessageFileBytes(loadStatFs("/zh.json"), "zh.json"); err != nil {
-		panic(err)
-	}
-
 	loc := i18n.NewLocalizer(bundle, lang)
 
 	hostUnavailableInfo := loc.MustLocalize(&i18n.LocalizeConfig{
