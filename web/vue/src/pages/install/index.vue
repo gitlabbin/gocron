@@ -14,26 +14,26 @@
           </el-select>
         </el-form-item>
         <el-row>
-          <el-col :span="12">
+          <el-col :span="12" :hidden="form.db_type==='sqlite3'">
             <el-form-item
               label="主机名"
               prop="db_host">
               <el-input v-model="form.db_host"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="12" :hidden="form.db_type==='sqlite3'">
             <el-form-item label="端口" prop="db_port">
               <el-input v-model.number="form.db_port"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="12">
+          <el-col :span="12" :hidden="form.db_type==='sqlite3'">
             <el-form-item label="用户名" prop="db_username">
               <el-input v-model="form.db_username"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="12" :hidden="form.db_type==='sqlite3'">
             <el-form-item label="密码" prop="db_password">
               <el-input v-model="form.db_password" type="password"></el-input>
             </el-form-item>
@@ -201,6 +201,9 @@ export default {
       if (dbType === 'sqlite3') {
         this.form['db_username'] = 'no_need'
         this.form['db_password'] = 'no-need'
+      } else {
+        this.form['db_username'] = ''
+        this.form['db_password'] = ''
       }
     },
     submit () {
