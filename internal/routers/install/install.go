@@ -3,6 +3,7 @@ package install
 import (
 	"errors"
 	"fmt"
+	"github.com/ouqiang/gocron/internal/lang"
 	"strconv"
 
 	macaron "gopkg.in/macaron.v1"
@@ -39,7 +40,7 @@ func (f InstallForm) Error(ctx *macaron.Context, errs binding.Errors) {
 		return
 	}
 	json := utils.JsonResponse{}
-	content := json.CommonFailure("Validation failed, check the input parameters")
+	content := json.CommonFailure(lang.WebFormValidateFail)
 	ctx.Write([]byte(content))
 }
 
@@ -48,7 +49,7 @@ func Store(ctx *macaron.Context, form InstallForm) string {
 	log.Infof("Install form: %v", form)
 	json := utils.JsonResponse{}
 	if app.Installed {
-		return json.CommonFailure("系统已安装!")
+		return json.CommonFailure(lang.SystemInstalledAlready)
 	}
 	if form.AdminPassword != form.ConfirmAdminPassword {
 		return json.CommonFailure("两次输入密码不匹配")
@@ -60,7 +61,7 @@ func Store(ctx *macaron.Context, form InstallForm) string {
 	// 写入数据库配置
 	err = writeConfig(form)
 	if err != nil {
-		return json.CommonFailure("数据库配置写入文件失败", err)
+		return json.CommonFailure(lang.AppConfigGenerateFailed, err)
 	}
 
 	appConfig, err := setting.Read(app.AppConfig)

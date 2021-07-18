@@ -35,6 +35,10 @@
   "status_failed": "失败",
   "status_succeed": "成功",
 
+  "web_form_validate_fail": "表单验证失败, 请检测输入",
+  "system_installed_already": "系统已安装!",
+  "app_config_generate_failed": "数据库配置写入文件失败",
+
   "messages": {
     "description": "The number of messages a person has",
     "one": "{{.Name}} 有 {{.Count}} 条信息.",

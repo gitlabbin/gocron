@@ -50,6 +50,9 @@ var (
 	StatusFailed                    string
 	StatusSucceed                   string
 	MsgJobFailed                    string
+	WebFormValidateFail             string
+	AppConfigGenerateFailed         string
+	SystemInstalledAlready          string
 )
 
 var statikFS http.FileSystem
@@ -266,5 +269,20 @@ func InitLangResource(lang string) {
 		MessageID: "msg_job_failed",
 	})
 	MsgJobFailed = msgJobFailed
+
+	webFormValidateFail := loc.MustLocalize(&i18n.LocalizeConfig{
+		MessageID: "web_form_validate_fail",
+	})
+	WebFormValidateFail = webFormValidateFail
+
+	systemInstalledAlready := loc.MustLocalize(&i18n.LocalizeConfig{
+		MessageID: "system_installed_already",
+	})
+	SystemInstalledAlready = systemInstalledAlready
+
+	appConfigGenerateFailed := loc.MustLocalize(&i18n.LocalizeConfig{
+		MessageID: "app_config_generate_failed",
+	})
+	AppConfigGenerateFailed = appConfigGenerateFailed
 
 }

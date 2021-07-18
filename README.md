@@ -139,12 +139,13 @@ request to http://localhost:8080, API request will forward to `gocron`
 * RPC [gRPC](https://github.com/grpc/grpc)
 
 ## Feedback
-raise [issue](https://github.com/ouqiang/gocron/issues/new)
+raise issue
 
 ## ChangeLog
 
-v1.5
-v1.4
-v1.3
-v1.2.2
-v1.1
+v1.6.0
+- Support Sqlite3
+- Fix `shell` mode timeout goroutine leaking
+- UI support international (en, zh)
+- Backend support international (en, zh)
+- GoCron default lang setting in app.ini (app.lang = en)
