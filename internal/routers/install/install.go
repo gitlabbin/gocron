@@ -40,7 +40,7 @@ func (f InstallForm) Error(ctx *macaron.Context, errs binding.Errors) {
 		return
 	}
 	json := utils.JsonResponse{}
-	content := json.CommonFailure(lang.WebFormValidateFail)
+	content := json.CommonFailure(lang.Tr("web_form_validate_fail"))
 	ctx.Write([]byte(content))
 }
 
@@ -49,10 +49,10 @@ func Store(ctx *macaron.Context, form InstallForm) string {
 	log.Infof("Install form: %v", form)
 	json := utils.JsonResponse{}
 	if app.Installed {
-		return json.CommonFailure(lang.SystemInstalledAlready)
+		return json.CommonFailure(lang.Tr("system_installed_already"))
 	}
 	if form.AdminPassword != form.ConfirmAdminPassword {
-		return json.CommonFailure("两次输入密码不匹配")
+		return json.CommonFailure(lang.Tr("password_mismatch"))
 	}
 	err := testDbConnection(form)
 	if err != nil {
@@ -61,12 +61,12 @@ func Store(ctx *macaron.Context, form InstallForm) string {
 	// 写入数据库配置
 	err = writeConfig(form)
 	if err != nil {
-		return json.CommonFailure(lang.AppConfigGenerateFailed, err)
+		return json.CommonFailure(lang.Tr("app_config_generate_failed"), err)
 	}
 
 	appConfig, err := setting.Read(app.AppConfig)
 	if err != nil {
-		return json.CommonFailure("读取应用配置失败", err)
+		return json.CommonFailure(lang.Tr("failed_read_app_ini"), err)
 	}
 	app.Setting = appConfig
 
@@ -75,19 +75,19 @@ func Store(ctx *macaron.Context, form InstallForm) string {
 	migration := new(models.Migration)
 	err = migration.Install(form.DbName)
 	if err != nil {
-		return json.CommonFailure(fmt.Sprintf("创建数据库表失败-%s", err.Error()), err)
+		return json.CommonFailure(fmt.Sprintf(lang.Tr("failed_create_db_table"), err.Error()), err)
 	}
 
 	// 创建管理员账号
 	err = createAdminUser(form)
 	if err != nil {
-		return json.CommonFailure("创建管理员账号失败", err)
+		return json.CommonFailure(lang.Tr("failed_create_admin"), err)
 	}
 
 	// 创建安装锁
 	err = app.CreateInstallLock()
 	if err != nil {
-		return json.CommonFailure("创建文件安装锁失败", err)
+		return json.CommonFailure(lang.Tr("failed_create_install_lock"), err)
 	}
 
 	// 更新版本号文件
@@ -97,7 +97,7 @@ func Store(ctx *macaron.Context, form InstallForm) string {
 	// 初始化定时任务
 	service.ServiceTask.Initialize()
 
-	return json.Success("安装成功", nil)
+	return json.Success(lang.Tr("app_installed"), nil)
 }
 
 // Write config file
@@ -160,7 +160,7 @@ func testDbConnection(form InstallForm) error {
 	if s.Db.Engine == "postgres" && err != nil {
 		pgError, ok := err.(*pq.Error)
 		if ok && pgError.Code == "3D000" {
-			err = errors.New("数据库不存在")
+			err = errors.New(lang.Tr("db_not_existed"))
 		}
 		return err
 	}
@@ -168,7 +168,7 @@ func testDbConnection(form InstallForm) error {
 	if s.Db.Engine == "mysql" && err != nil {
 		mysqlError, ok := err.(*mysql.MySQLError)
 		if ok && mysqlError.Number == 1049 {
-			err = errors.New("数据库不存在")
+			err = errors.New(lang.Tr("db_not_existed"))
 		}
 		return err
 	}

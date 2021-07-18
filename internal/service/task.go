@@ -113,7 +113,7 @@ func (task Task) Initialize() {
 	taskCount = TaskCount{sync.WaitGroup{}, make(chan struct{})}
 	go taskCount.Wait()
 
-	logger.Info(lang.MsgSchedulerToInit)
+	logger.Info(lang.Tr("msg_scheduler_to_init"))
 	taskModel := new(models.Task)
 	taskNum := 0
 	page := 1
@@ -122,7 +122,7 @@ func (task Task) Initialize() {
 	for page < maxPage {
 		taskList, err := taskModel.ActiveList(page, pageSize)
 		if err != nil {
-			logger.Fatalf(lang.MsgSchedulerInitErrorJobs, err)
+			logger.Fatalf(lang.Tr("msg_scheduler_init_error_jobs"), err)
 		}
 		if len(taskList) == 0 {
 			break
@@ -133,7 +133,7 @@ func (task Task) Initialize() {
 		}
 		page++
 	}
-	logger.Infof(lang.MsgSchedulerInitDone, taskNum)
+	logger.Infof(lang.Tr("msg_scheduler_init_done"), taskNum)
 }
 
 // 批量添加任务
@@ -152,12 +152,12 @@ func (task Task) RemoveAndAdd(taskModel models.Task) {
 // 添加任务
 func (task Task) Add(taskModel models.Task) {
 	if taskModel.Level == models.TaskLevelChild {
-		logger.Errorf(lang.MsgNotAllowSubtaskSchedule, taskModel.Id)
+		logger.Errorf(lang.Tr("msg_not_allow_subtask_schedule"), taskModel.Id)
 		return
 	}
 	taskFunc := createJob(taskModel)
 	if taskFunc == nil {
-		logger.Error(lang.MsgNotSupportProtocolTaskToJob, taskModel.Protocol)
+		logger.Error(lang.Tr("msg_not_support_protocol_task_to_job"), taskModel.Protocol)
 		return
 	}
 
@@ -166,7 +166,7 @@ func (task Task) Add(taskModel models.Task) {
 		serviceCron.AddFunc(taskModel.Spec, taskFunc, cronName)
 	})
 	if err != nil {
-		logger.Error(lang.MsgFailedAddTaskToScheduler, err)
+		logger.Error(lang.Tr("msg_failed_add_task_to_scheduler"), err)
 	}
 }
 
@@ -234,7 +234,7 @@ func (h *HTTPHandler) Run(taskModel models.Task, taskUniqueId int64) (result str
 	}
 	// 返回状态码非200，均为失败
 	if resp.StatusCode != http.StatusOK {
-		return resp.Body, fmt.Errorf(lang.MsgHttpStatusNot200, resp.StatusCode)
+		return resp.Body, fmt.Errorf(lang.Tr("msg_http_status_not_200"), resp.StatusCode)
 	}
 
 	return resp.Body, err
@@ -256,7 +256,7 @@ func (h *RPCHandler) Run(taskModel models.Task, taskUniqueId int64) (result stri
 			if err != nil {
 				errorMessage = err.Error()
 			}
-			outputMessage := fmt.Sprintf(lang.MsgNodeErrorMessage,
+			outputMessage := fmt.Sprintf(lang.Tr("msg_node_error_message"),
 				th.Alias, th.Name, th.Port, errorMessage, output,
 			)
 			resultChan <- TaskResult{Err: err, Result: outputMessage}
@@ -339,9 +339,9 @@ func createJob(taskModel models.Task) cron.FuncJob {
 		concurrencyQueue.Add()
 		defer concurrencyQueue.Done()
 
-		logger.Infof(lang.MsgJobStart, taskModel.Name, taskModel.Command)
+		logger.Infof(lang.Tr("msg_job_start"), taskModel.Name, taskModel.Command)
 		taskResult := execJob(handler, taskModel, taskLogId)
-		logger.Infof(lang.MsgJobDone, taskModel.Name, taskModel.Command)
+		logger.Infof(lang.Tr("msg_job_done"), taskModel.Name, taskModel.Command)
 		afterExecJob(taskModel, taskResult, taskLogId)
 	}
 
@@ -368,10 +368,10 @@ func beforeExecJob(taskModel models.Task) (taskLogId int64) {
 	}
 	taskLogId, err := createTaskLog(taskModel, models.Running)
 	if err != nil {
-		logger.Error(lang.MsgJobStartFailOnLog, err)
+		logger.Error(lang.Tr("msg_job_start_fail_on_log"), err)
 		return
 	}
-	logger.Debugf(lang.MsgJobCmd, taskModel.Command)
+	logger.Debugf(lang.Tr("msg_job_cmd"), taskModel.Command)
 
 	return taskLogId
 }
@@ -380,7 +380,7 @@ func beforeExecJob(taskModel models.Task) (taskLogId int64) {
 func afterExecJob(taskModel models.Task, taskResult TaskResult, taskLogId int64) {
 	_, err := updateTaskLog(taskLogId, taskResult)
 	if err != nil {
-		logger.Error(lang.MsgJobEndUpdateLogFailed, err)
+		logger.Error(lang.Tr("msg_job_end_update_log_failed"), err)
 	}
 
 	// 发送邮件
@@ -404,7 +404,7 @@ func execDependencyTask(taskModel models.Task, taskResult TaskResult) {
 
 	// 父子任务关系为强依赖, 父任务执行失败, 不执行依赖任务
 	if taskModel.DependencyStatus == models.TaskDependencyStatusStrong && taskResult.Err != nil {
-		logger.Infof(lang.MsgParentFailedChildWouldNotRun, taskModel.Id)
+		logger.Infof(lang.Tr("msg_parent_failed_child_would_not_run"), taskModel.Id)
 		return
 	}
 
@@ -412,14 +412,14 @@ func execDependencyTask(taskModel models.Task, taskResult TaskResult) {
 	model := new(models.Task)
 	tasks, err := model.GetDependencyTaskList(dependencyTaskId)
 	if err != nil {
-		logger.Errorf(lang.MsgFailedGetDependencyJob, taskModel.Id, err.Error())
+		logger.Errorf(lang.Tr("msg_failed_get_dependency_job"), taskModel.Id, err.Error())
 		return
 	}
 	if len(tasks) == 0 {
-		logger.Errorf(lang.MsgDependencyJobEmpty, taskModel.Id)
+		logger.Errorf(lang.Tr("msg_dependency_job_empty"), taskModel.Id)
 	}
 	for _, task := range tasks {
-		task.Spec = fmt.Sprintf(lang.MsgDependencyJob, taskModel.Id)
+		task.Spec = fmt.Sprintf(lang.Tr("msg_dependency_job"), taskModel.Id)
 		ServiceTask.Run(task)
 	}
 }
@@ -445,9 +445,9 @@ func SendNotification(taskModel models.Task, taskResult TaskResult) {
 		return
 	}
 	if taskResult.Err != nil {
-		statusName = lang.StatusFailed
+		statusName = lang.Tr("status_failed")
 	} else {
-		statusName = lang.StatusSucceed
+		statusName = lang.Tr("status_succeed")
 	}
 	// 发送通知
 	msg := notify.Message{
@@ -484,7 +484,7 @@ func execJob(handler Handler, taskModel models.Task, taskUniqueId int64) TaskRes
 		}
 		i++
 		if i < execTimes {
-			logger.Warnf(lang.MsgJobFailed, taskModel.Id, i, output, err.Error())
+			logger.Warnf(lang.Tr("msg_job_failed"), taskModel.Id, i, output, err.Error())
 			if taskModel.RetryInterval > 0 {
 				time.Sleep(time.Duration(taskModel.RetryInterval) * time.Second)
 			} else {

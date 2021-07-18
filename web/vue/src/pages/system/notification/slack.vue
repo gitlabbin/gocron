@@ -7,7 +7,7 @@
         <el-form-item label="Slack Webhook URL" prop="url">
           <el-input v-model="form.url"></el-input>
         </el-form-item>
-        <el-form-item label="模板" prop="template">
+        <el-form-item :label="$t('template')" prop="template">
           <el-input
             type="textarea"
             :rows="8"
@@ -17,10 +17,10 @@
           </el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-document" plain @click="submit">保存</el-button>
+          <el-button type="primary" icon="el-icon-document" plain @click="submit">{{ $t('action_save') }}</el-button>
         </el-form-item>
         <h3>Channel</h3>
-        <el-button type="primary" icon="el-icon-plus" plain @click="createChannel">新增Channel</el-button> <br><br>
+        <el-button type="primary" icon="el-icon-plus" plain @click="createChannel">{{ $t('new_slack_channel') }}</el-button> <br><br>
         <el-tag
           v-for="item in channels"
           :key="item.id"
@@ -35,11 +35,11 @@
         :visible.sync="dialogVisible"
         width="30%">
         <el-form :model="form">
-          <el-form-item label="Channel名称" >
+          <el-form-item :label="$t('channel_name')" >
             <el-input v-model.trim="channel" v-focus></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="saveChannel">确 定</el-button>
+            <el-button type="primary" @click="saveChannel">{{ $t('buttons_ok') }}</el-button>
           </el-form-item>
         </el-form>
       </el-dialog>

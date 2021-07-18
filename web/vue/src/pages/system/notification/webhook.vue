@@ -5,14 +5,14 @@
       <notification-tab></notification-tab>
       <el-form ref="form" :model="form" :rules="formRules" label-width="100px" style="width: 700px;">
         <el-alert
-          title="通知内容推送到指定URL, POST请求, 设置Header[ Content-Type: application/json]"
+          :title="$t('webhook_hint')"
           type="info"
           :closable="false">
         </el-alert><br>
         <el-form-item label="URL" prop="url">
           <el-input v-model.trim="form.url"></el-input>
         </el-form-item>
-        <el-form-item label="模板" prop="template">
+        <el-form-item :label="$t('template')" prop="template">
           <el-input
             type="textarea"
             :rows="8"
@@ -21,7 +21,7 @@
           </el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-document" plain @click="submit()">保存</el-button>
+          <el-button type="primary" icon="el-icon-document" plain @click="submit()">{{ $t('action_save') }}</el-button>
         </el-form-item>
       </el-form>
     </el-main>

@@ -2,8 +2,8 @@
   <el-container>
     <el-main>
       <el-form ref="form" :model="form" :rules="form.db_type==='sqlite3'?formSqliteRules:formRules" label-width="100px" style="width: 700px;">
-        <h3>数据库配置</h3>
-        <el-form-item label="数据库选择" prop="db_type">
+        <h3>{{ $t('database_setting') }}</h3>
+        <el-form-item :label="$t('select_database')" prop="db_type">
           <el-select v-model.trim="form.db_type" @change="update_port">
             <el-option
               v-for="item in dbList"
@@ -16,68 +16,68 @@
         <el-row>
           <el-col :span="12" :hidden="form.db_type==='sqlite3'">
             <el-form-item
-              label="主机名"
+              :label="$t('hostname')"
               prop="db_host">
               <el-input v-model="form.db_host"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12" :hidden="form.db_type==='sqlite3'">
-            <el-form-item label="端口" prop="db_port">
+            <el-form-item :label="$t('port')" prop="db_port">
               <el-input v-model.number="form.db_port"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12" :hidden="form.db_type==='sqlite3'">
-            <el-form-item label="用户名" prop="db_username">
+            <el-form-item :label="$t('db_user')" prop="db_username">
               <el-input v-model="form.db_username"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12" :hidden="form.db_type==='sqlite3'">
-            <el-form-item label="密码" prop="db_password">
+            <el-form-item :label="$t('db_password')" prop="db_password">
               <el-input v-model="form.db_password" type="password"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="数据库名称" prop="db_name">
-              <el-input v-model="form.db_name" placeholder="如果数据库不存在, 需提前创建"></el-input>
+            <el-form-item :label="$t('db_name')" prop="db_name">
+              <el-input v-model="form.db_name" :placeholder="$t('db_hint')"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="表前缀" prop="db_table_prefix">
+            <el-form-item :label="$t('table_prefix')" prop="db_table_prefix">
               <el-input v-model="form.db_table_prefix"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <h3>管理员账号配置</h3>
+        <h3>{{ $t('system_admin_setting') }}</h3>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="账号" prop="admin_username">
+            <el-form-item :label="$t('admin_user')" prop="admin_username">
               <el-input v-model="form.admin_username"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="邮箱" prop="admin_email">
+            <el-form-item :label="$t('admin_email')" prop="admin_email">
               <el-input v-model="form.admin_email"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="密码" prop="admin_password">
+            <el-form-item :label="$t('admin_password')" prop="admin_password">
               <el-input v-model="form.admin_password" type="password"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="确认密码" prop="confirm_admin_password">
+            <el-form-item :label="$t('confirm_password')" prop="confirm_admin_password">
               <el-input v-model="form.confirm_admin_password" type="password"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-form-item>
-          <el-button type="primary" @click="submit()">安装</el-button>
+          <el-button type="primary" @click="submit()">{{ $t('install') }}</el-button>
         </el-form-item>
       </el-form>
     </el-main>

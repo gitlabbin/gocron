@@ -86,7 +86,7 @@ func write(level Level, v ...interface{}) {
 	if macaron.Env == macaron.DEV {
 		pc, file, line, ok := runtime.Caller(2)
 		if ok {
-			content = fmt.Sprintf(lang.MsgLogFmt, file, runtime.FuncForPC(pc).Name(), line)
+			content = fmt.Sprintf(lang.Tr("msg_log_fmt"), file, runtime.FuncForPC(pc).Name(), line)
 		}
 	}
 
@@ -112,7 +112,7 @@ func writef(level Level, format string, v ...interface{}) {
 	if macaron.Env == macaron.DEV {
 		pc, file, line, ok := runtime.Caller(2)
 		if ok {
-			content = fmt.Sprintf(lang.MsgLogFmt, file, runtime.FuncForPC(pc).Name(), line)
+			content = fmt.Sprintf(lang.Tr("msg_log_fmt"), file, runtime.FuncForPC(pc).Name(), line)
 		}
 	}
 

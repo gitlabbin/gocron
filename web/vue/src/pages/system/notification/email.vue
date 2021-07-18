@@ -4,37 +4,37 @@
     <el-main>
       <notification-tab></notification-tab>
       <el-form ref="form" :model="form" :rules="formRules" label-width="150px" style="width: 800px;">
-        <h3>邮件服务器配置</h3>
+        <h3>{{ $t('email_server_config') }}</h3>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="SMTP服务器" prop="host">
+            <el-form-item :label="$t('smtp_server')" prop="host">
               <el-input v-model="form.host"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
-            <el-form-item label="端口" prop="port">
+            <el-form-item :label="$t('port')" prop="port">
               <el-input v-model.number="form.port"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="用户名" prop="user">
+            <el-form-item :label="$t('username')" prop="user">
               <el-input v-model="form.user"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="密码" prop="password">
+            <el-form-item :label="$t('password')" prop="password">
               <el-input v-model="form.password" type="password"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-alert
-          title="通知模板支持html"
+          :title="$t('template_support_html')"
           type="info"
           :closable="false">
         </el-alert><br>
-        <el-form-item label="模板" prop="template">
+        <el-form-item :label="$t('template')" prop="template">
           <el-input
             type="textarea"
             :rows="6"
@@ -43,10 +43,10 @@
           </el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-document" plain @click="submit()">保存</el-button>
+          <el-button type="primary" icon="el-icon-document" plain @click="submit()">{{ $t('action_save') }}</el-button>
         </el-form-item>
-        <el-button type="primary" icon="el-icon-plus" plain @click="createUser">新增用户</el-button> <br><br>
-        <h3>通知用户</h3>
+        <el-button type="primary" icon="el-icon-plus" plain @click="createUser">{{ $t('add_user') }}</el-button> <br><br>
+        <h3>{{ $t('user_notify') }}</h3>
         <el-tag
           v-for="item in receivers"
           :key="item.email"
@@ -60,14 +60,14 @@
         :visible.sync="dialogVisible"
         width="30%">
         <el-form :model="form">
-          <el-form-item label="用户名" >
+          <el-form-item :label="$t('username')" >
             <el-input v-model.trim="username"></el-input>
           </el-form-item>
-          <el-form-item label="邮箱地址" >
+          <el-form-item :label="$t('email_address')" >
             <el-input v-model.trim="email"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="saveUser">确 定</el-button>
+            <el-button type="primary" @click="saveUser">{{ $t('buttons_ok') }}</el-button>
           </el-form-item>
         </el-form>
       </el-dialog>

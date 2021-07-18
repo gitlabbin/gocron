@@ -12,18 +12,18 @@ type Setting struct {
 }
 
 const slackTemplate = `
-任务ID:  {{.TaskId}}
-任务名称: {{.TaskName}}
-状态:    {{.Status}}
-执行结果: {{.Result}}
-备注: {{.Remark}}
+TaskID:  {{.TaskId}}
+TaskName: {{.TaskName}}
+Status:    {{.Status}}
+Result: {{.Result}}
+Remark: {{.Remark}}
 `
 const emailTemplate = `
-任务ID:  {{.TaskId}}
-任务名称: {{.TaskName}}
-状态:    {{.Status}}
-执行结果: {{.Result}}
-备注: {{.Remark}}
+TaskID:  {{.TaskId}}
+TaskName: {{.TaskName}}
+Status:    {{.Status}}
+Result: {{.Result}}
+Remark: {{.Remark}}
 `
 const webhookTemplate = `
 {

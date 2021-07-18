@@ -38,6 +38,13 @@
   "web_form_validate_fail": "表单验证失败, 请检测输入",
   "system_installed_already": "系统已安装!",
   "app_config_generate_failed": "数据库配置写入文件失败",
+  "app_installed": "安装成功",
+  "password_mismatch": "两次输入密码不匹配",
+  "failed_read_app_ini": "读取应用配置失败",
+  "failed_create_db_table": "创建数据库表失败-%s",
+  "failed_create_admin": "创建管理员账号失败",
+  "failed_create_install_lock": "创建文件安装锁失败",
+  "db_not_existed": "数据库不存在",
 
   "messages": {
     "description": "The number of messages a person has",

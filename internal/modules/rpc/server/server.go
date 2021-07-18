@@ -91,12 +91,12 @@ func Start(addr string, enableTLS bool, certificate auth.Certificate) {
 	signal.Notify(c, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM)
 	for {
 		s := <-c
-		log.Infoln(lang.MsgSignalReceived, s)
+		log.Infoln(lang.Tr("msg_signal_received"), s)
 		switch s {
 		case syscall.SIGHUP:
-			log.Infoln(lang.MsgSignalTerminalEnd)
+			log.Infoln(lang.Tr("msg_signal_terminal_end"))
 		case syscall.SIGINT, syscall.SIGTERM:
-			log.Info(lang.MsgSystemToExit)
+			log.Info(lang.Tr("msg_system_to_exit"))
 			server.GracefulStop()
 			return
 		}

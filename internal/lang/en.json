@@ -38,6 +38,13 @@
   "web_form_validate_fail": "Web form failed to validate, check web form input",
   "system_installed_already": "System installed already!",
   "app_config_generate_failed": "App.ini file failed to generate",
+  "app_installed": "Installed Successfully",
+  "password_mismatch": "The two times password input mismatched",
+  "failed_read_app_ini": "Failed to read app config",
+  "failed_create_db_table": "Failed to create DB table-%s",
+  "failed_create_admin": "Failed to create admin user",
+  "failed_create_install_lock": "Failed to create installation lock",
+  "db_not_existed": "Database not existed",
 
   "messages": {
     "description": "The number of messages a person has",

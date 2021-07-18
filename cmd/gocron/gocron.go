@@ -97,7 +97,7 @@ func initModule() {
 
 	config, err := setting.Read(app.AppConfig)
 	if err != nil {
-		logger.Fatal(lang.MsgFailedReadConf, err)
+		logger.Fatal(lang.Tr("msg_failed_read_conf"), err)
 	}
 	app.Setting = config
 	lang.InitLangResource(app.Setting.Lang)
@@ -155,10 +155,10 @@ func catchSignal() {
 	signal.Notify(c, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM)
 	for {
 		s := <-c
-		logger.Info(lang.MsgSignalReceived, s)
+		logger.Info(lang.Tr("msg_signal_received"), s)
 		switch s {
 		case syscall.SIGHUP:
-			logger.Info(lang.MsgSignalTerminalEnd)
+			logger.Info(lang.Tr("msg_signal_terminal_end"))
 		case syscall.SIGINT, syscall.SIGTERM:
 			shutdown()
 		}
@@ -168,16 +168,16 @@ func catchSignal() {
 // 应用退出
 func shutdown() {
 	defer func() {
-		logger.Info(lang.MsgExitAlready)
+		logger.Info(lang.Tr("msg_exit_already"))
 		os.Exit(0)
 	}()
 
 	if !app.Installed {
 		return
 	}
-	logger.Info(lang.MsgSystemToExit)
+	logger.Info(lang.Tr("msg_system_to_exit"))
 	// 停止所有任务调度
-	logger.Info(lang.MsgStopScheduler)
+	logger.Info(lang.Tr("msg_stop_scheduler"))
 	service.ServiceTask.WaitAndExit()
 }
 
@@ -193,10 +193,10 @@ func upgradeIfNeed() {
 	}
 
 	migration := new(models.Migration)
-	logger.Infof(lang.MsgUpgradeVersion, currentVersionId)
+	logger.Infof(lang.Tr("msg_upgrade_version"), currentVersionId)
 
 	migration.Upgrade(currentVersionId)
 	app.UpdateVersionFile()
 
-	logger.Infof(lang.MsgUpgradeVersionDone, app.VersionId)
+	logger.Infof(lang.Tr("msg_upgrade_version_done"), app.VersionId)
 }
