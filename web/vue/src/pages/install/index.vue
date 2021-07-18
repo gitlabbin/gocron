@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-main>
-      <el-form ref="form" :model="form" :rules="formRules" label-width="100px" style="width: 700px;">
+      <el-form ref="form" :model="form" :rules="form.db_type==='sqlite3'?formSqliteRules:formRules" label-width="100px" style="width: 700px;">
         <h3>数据库配置</h3>
         <el-form-item label="数据库选择" prop="db_type">
           <el-select v-model.trim="form.db_type" @change="update_port">
@@ -15,7 +15,9 @@
         </el-form-item>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="主机名" prop="db_host">
+            <el-form-item
+              label="主机名"
+              prop="db_host">
               <el-input v-model="form.db_host"></el-input>
             </el-form-item>
           </el-col>
@@ -135,6 +137,40 @@ export default {
           {min: 6, message: '长度至少6个字符', trigger: 'blur'}
         ]
       },
+      formSqliteRules: {
+        db_type: [
+          {required: true, message: '请选择数据库', trigger: 'blur'}
+        ],
+        db_host: [
+          {required: false, message: '请输入数据库主机名', trigger: 'blur'}
+        ],
+        db_port: [
+          {type: 'number', required: false, message: '请输入数据库端口', trigger: 'blur'}
+        ],
+        db_username: [
+          {required: false, message: '请输入数据库用户名', trigger: 'blur'}
+        ],
+        db_password: [
+          {required: false, message: '请输入数据库密码', trigger: 'blur'}
+        ],
+        db_name: [
+          {required: true, message: '请输入数据库名称', trigger: 'blur'}
+        ],
+        admin_username: [
+          {required: true, message: '请输入管理员账号', trigger: 'blur'}
+        ],
+        admin_email: [
+          {type: 'email', required: true, message: '请输入管理员邮箱', trigger: 'blur'}
+        ],
+        admin_password: [
+          {required: true, message: '请输入管理员密码', trigger: 'blur'},
+          {min: 6, message: '长度至少6个字符', trigger: 'blur'}
+        ],
+        confirm_admin_password: [
+          {required: true, message: '请再次输入管理员密码', trigger: 'blur'},
+          {min: 6, message: '长度至少6个字符', trigger: 'blur'}
+        ]
+      },
       dbList: [
         {
           value: 'sqlite3',
@@ -150,6 +186,7 @@ export default {
         }
       ],
       default_ports: {
+        'sqlite3': 1,
         'mysql': 3306,
         'postgres': 5432
       }
@@ -161,10 +198,15 @@ export default {
       console.log(this.default_ports[dbType])
       this.form['db_port'] = this.default_ports[dbType]
       console.log(this.form['db_port'])
+      if (dbType === 'sqlite3') {
+        this.form['db_username'] = 'no_need'
+        this.form['db_password'] = 'no-need'
+      }
     },
     submit () {
-      this.$refs['form'].validate((valid) => {
+      this.$refs['form'].validate((valid, errors) => {
         if (!valid) {
+          console.log(errors)
           return false
         }
         this.save()

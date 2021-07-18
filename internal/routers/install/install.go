@@ -15,6 +15,7 @@ import (
 	"github.com/ouqiang/gocron/internal/modules/setting"
 	"github.com/ouqiang/gocron/internal/modules/utils"
 	"github.com/ouqiang/gocron/internal/service"
+	log "github.com/sirupsen/logrus"
 )
 
 // System install
@@ -44,6 +45,7 @@ func (f InstallForm) Error(ctx *macaron.Context, errs binding.Errors) {
 
 // Installation
 func Store(ctx *macaron.Context, form InstallForm) string {
+	log.Infof("Install form: %v", form)
 	json := utils.JsonResponse{}
 	if app.Installed {
 		return json.CommonFailure("系统已安装!")
