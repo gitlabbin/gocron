@@ -124,7 +124,7 @@ export default {
     },
     ping (item) {
       hostService.ping(item.id, () => {
-        this.$message.success('连接成功')
+        this.$message.success(this.$tc('msg_connection_success'))
       })
     },
     toEdit (item) {
@@ -138,7 +138,7 @@ export default {
     },
     refresh () {
       this.search(() => {
-        this.$message.success('刷新成功')
+        this.$message.success(this.$tc('refresh_done'))
       })
     },
     toTasks (item) {

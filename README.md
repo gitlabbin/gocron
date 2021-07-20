@@ -35,7 +35,7 @@ Original `DelayJob` was put it into another project [DelayQueue](https://github.
 ```
     
 ### OS system
-> Windows、Linux、Mac OS
+> Linux, Mac OS, Windows
 
 ### Database
 -  Sqlite3

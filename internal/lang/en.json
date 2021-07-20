@@ -45,6 +45,9 @@
   "failed_create_admin": "Failed to create admin user",
   "failed_create_install_lock": "Failed to create installation lock",
   "db_not_existed": "Database not existed",
+  "http_request_error": "HTTP Request error-%s",
+  "read_http_response_fail": "Read HTTP response failed-%s",
+  "create_http_request_fail": "Create HTTP request, error-%s",
 
   "messages": {
     "description": "The number of messages a person has",

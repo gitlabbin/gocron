@@ -8,6 +8,7 @@ import (
 	"github.com/rakyll/statik/fs"
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/text/language"
+	"gopkg.in/macaron.v1"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -108,4 +109,14 @@ func InitLangPack(lang string) {
 
 func Tr(key string) string {
 	return msgMap[key]
+}
+
+func TrLang(ctx *macaron.Context, key string) string {
+	reqLang := ctx.Req.Form.Get("lang")
+	accept := ctx.Req.Header.Get("Accept-Language")
+	localizer := i18n.NewLocalizer(bundle, reqLang, accept)
+	msg := localizer.MustLocalize(&i18n.LocalizeConfig{
+		MessageID: key,
+	})
+	return msg
 }

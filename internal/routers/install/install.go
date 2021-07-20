@@ -16,7 +16,6 @@ import (
 	"github.com/ouqiang/gocron/internal/modules/setting"
 	"github.com/ouqiang/gocron/internal/modules/utils"
 	"github.com/ouqiang/gocron/internal/service"
-	log "github.com/sirupsen/logrus"
 )
 
 // System install
@@ -40,19 +39,18 @@ func (f InstallForm) Error(ctx *macaron.Context, errs binding.Errors) {
 		return
 	}
 	json := utils.JsonResponse{}
-	content := json.CommonFailure(lang.Tr("web_form_validate_fail"))
+	content := json.CommonFailure(lang.TrLang(ctx, "web_form_validate_fail"))
 	ctx.Write([]byte(content))
 }
 
 // Installation
 func Store(ctx *macaron.Context, form InstallForm) string {
-	log.Infof("Install form: %v", form)
 	json := utils.JsonResponse{}
 	if app.Installed {
-		return json.CommonFailure(lang.Tr("system_installed_already"))
+		return json.CommonFailure(lang.TrLang(ctx, "system_installed_already"))
 	}
 	if form.AdminPassword != form.ConfirmAdminPassword {
-		return json.CommonFailure(lang.Tr("password_mismatch"))
+		return json.CommonFailure(lang.TrLang(ctx, "password_mismatch"))
 	}
 	err := testDbConnection(form)
 	if err != nil {
@@ -61,12 +59,12 @@ func Store(ctx *macaron.Context, form InstallForm) string {
 	// 写入数据库配置
 	err = writeConfig(form)
 	if err != nil {
-		return json.CommonFailure(lang.Tr("app_config_generate_failed"), err)
+		return json.CommonFailure(lang.TrLang(ctx, "app_config_generate_failed"), err)
 	}
 
 	appConfig, err := setting.Read(app.AppConfig)
 	if err != nil {
-		return json.CommonFailure(lang.Tr("failed_read_app_ini"), err)
+		return json.CommonFailure(lang.TrLang(ctx, "failed_read_app_ini"), err)
 	}
 	app.Setting = appConfig
 
@@ -75,19 +73,19 @@ func Store(ctx *macaron.Context, form InstallForm) string {
 	migration := new(models.Migration)
 	err = migration.Install(form.DbName)
 	if err != nil {
-		return json.CommonFailure(fmt.Sprintf(lang.Tr("failed_create_db_table"), err.Error()), err)
+		return json.CommonFailure(fmt.Sprintf(lang.TrLang(ctx, "failed_create_db_table"), err.Error()), err)
 	}
 
 	// 创建管理员账号
 	err = createAdminUser(form)
 	if err != nil {
-		return json.CommonFailure(lang.Tr("failed_create_admin"), err)
+		return json.CommonFailure(lang.TrLang(ctx, "failed_create_admin"), err)
 	}
 
 	// 创建安装锁
 	err = app.CreateInstallLock()
 	if err != nil {
-		return json.CommonFailure(lang.Tr("failed_create_install_lock"), err)
+		return json.CommonFailure(lang.TrLang(ctx, "failed_create_install_lock"), err)
 	}
 
 	// 更新版本号文件
@@ -97,7 +95,7 @@ func Store(ctx *macaron.Context, form InstallForm) string {
 	// 初始化定时任务
 	service.ServiceTask.Initialize()
 
-	return json.Success(lang.Tr("app_installed"), nil)
+	return json.Success(lang.TrLang(ctx, "app_installed"), nil)
 }
 
 // Write config file

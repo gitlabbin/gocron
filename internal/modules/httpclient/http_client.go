@@ -5,6 +5,7 @@ package httpclient
 import (
 	"bytes"
 	"fmt"
+	"github.com/ouqiang/gocron/internal/lang"
 	"io/ioutil"
 	"net"
 	"net/http"
@@ -74,13 +75,13 @@ func request(req *http.Request, timeout int) ResponseWrapper {
 		}
 
 		// handle other errors without analysis
-		wrapper.Body = fmt.Sprintf("执行HTTP请求错误-%s", err.Error())
+		wrapper.Body = fmt.Sprintf(lang.Tr("http_request_error"), err.Error())
 		return wrapper
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		wrapper.Body = fmt.Sprintf("读取HTTP请求返回值失败-%s", err.Error())
+		wrapper.Body = fmt.Sprintf(lang.Tr("read_http_response_fail"), err.Error())
 		return wrapper
 	}
 	wrapper.StatusCode = resp.StatusCode
@@ -95,6 +96,6 @@ func setRequestHeader(req *http.Request) {
 }
 
 func createRequestError(err error) ResponseWrapper {
-	errorMessage := fmt.Sprintf("创建HTTP请求错误-%s", err.Error())
+	errorMessage := fmt.Sprintf(lang.Tr("create_http_request_fail"), err.Error())
 	return ResponseWrapper{0, errorMessage, make(http.Header)}
 }

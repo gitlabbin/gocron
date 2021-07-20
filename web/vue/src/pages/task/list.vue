@@ -241,27 +241,27 @@ export default {
   filters: {
     formatLevel (value) {
       if (value === 1) {
-        return '主任务'
+        return this.$tc('main_job')
       }
-      return '子任务'
+      return this.$tc('sub_job')
     },
     formatTimeout (value) {
       if (value > 0) {
-        return value + '秒'
+        return value + this.$tc('seconds')
       }
-      return '不限制'
+      return this.$tc('no_limit')
     },
     formatRetryTimesInterval (value) {
       if (value > 0) {
         return value + '秒'
       }
-      return '系统默认'
+      return this.$tc('default_value')
     },
     formatMulti (value) {
       if (value > 0) {
-        return '否'
+        return this.$tc('no')
       }
-      return '是'
+      return this.tc('yes')
     }
   },
   methods: {
@@ -302,7 +302,7 @@ export default {
     runTask (item) {
       this.$appConfirm(() => {
         taskService.run(item.id, () => {
-          this.$message.success('任务已开始执行')
+          this.$message.success(this.$tc('job_started'))
         })
       }, true)
     },
@@ -318,7 +318,7 @@ export default {
     },
     refresh () {
       this.search(() => {
-        this.$message.success('刷新成功')
+        this.$message.success(this.$tc('refresh_done'))
       })
     },
     toEdit (item) {

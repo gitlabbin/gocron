@@ -45,6 +45,9 @@
   "failed_create_admin": "创建管理员账号失败",
   "failed_create_install_lock": "创建文件安装锁失败",
   "db_not_existed": "数据库不存在",
+  "http_request_error": "执行HTTP请求错误-%s",
+  "read_http_response_fail": "读取HTTP请求返回值失败-%s",
+  "create_http_request_fail": "创建HTTP请求错误-%s",
 
   "messages": {
     "description": "The number of messages a person has",
