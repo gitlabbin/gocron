@@ -85,10 +85,11 @@ func InitLangResource(lang string) {
 	loc := i18n.NewLocalizer(bundle, lang)
 
 	for _, k := range keys {
+		key := k.Interface().(string)
 		msg := loc.MustLocalize(&i18n.LocalizeConfig{
-			MessageID: k.Interface().(string),
+			MessageID: key,
 		})
-		msgMap[k.String()] = msg
+		msgMap[key] = msg
 	}
 
 	ErrUnavailable = errors.New(Tr("node_unreachable"))
