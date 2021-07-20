@@ -22,6 +22,8 @@ var (
 
 var msgMap = make(map[string]string)
 var statikFS http.FileSystem
+var bundle *i18n.Bundle
+var keys []reflect.Value
 
 func init() {
 	var err error
@@ -29,7 +31,8 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	InitLangResource(language.English.String())
+	initBundle()
+	InitLangPack(language.English.String())
 }
 
 func loadStatFs(path string) []byte {
@@ -63,15 +66,10 @@ func listBundles() []os.FileInfo {
 	}
 }
 
-func Tr(key string) string {
-	return msgMap[key]
-}
-
-func InitLangResource(lang string) {
-	bundle := i18n.NewBundle(language.English)
+func initBundle() {
+	bundle = i18n.NewBundle(language.English)
 	bundle.RegisterUnmarshalFunc("json", json.Unmarshal)
 
-	var keys []reflect.Value
 	for _, jsonFile := range listBundles() {
 		content := loadStatFs("/" + jsonFile.Name())
 		if keys == nil {
@@ -82,6 +80,17 @@ func InitLangResource(lang string) {
 			panic(err)
 		}
 	}
+}
+
+func loadAllKeys(content []byte) []reflect.Value {
+	var result map[string]interface{}
+	if err := json.Unmarshal(content, &result); err != nil {
+		panic(err)
+	}
+	return reflect.ValueOf(result).MapKeys()
+}
+
+func InitLangPack(lang string) {
 	loc := i18n.NewLocalizer(bundle, lang)
 
 	for _, k := range keys {
@@ -97,10 +106,6 @@ func InitLangResource(lang string) {
 	ErrCancel = errors.New(Tr("manual_cancel"))
 }
 
-func loadAllKeys(content []byte) []reflect.Value {
-	var result map[string]interface{}
-	if err := json.Unmarshal(content, &result); err != nil {
-		panic(err)
-	}
-	return reflect.ValueOf(result).MapKeys()
+func Tr(key string) string {
+	return msgMap[key]
 }

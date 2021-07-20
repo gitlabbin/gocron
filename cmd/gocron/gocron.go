@@ -100,7 +100,7 @@ func initModule() {
 		logger.Fatal(lang.Tr("msg_failed_read_conf"), err)
 	}
 	app.Setting = config
-	lang.InitLangResource(app.Setting.Lang)
+	lang.InitLangPack(app.Setting.Lang)
 
 	// 初始化DB
 	models.Db = models.CreateDb()
