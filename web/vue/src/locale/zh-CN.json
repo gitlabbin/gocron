@@ -174,5 +174,6 @@
   "msg_connection_success": "连接成功",
   "no_limit": "不限制",
   "default_value": "系统默认",
-  "job_started": "任务已开始执行"
+  "job_started": "任务已开始执行",
+  "job_group_type": "任务类型:"
 }

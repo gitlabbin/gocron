@@ -83,7 +83,7 @@
             <el-form-item :label="$t('job_create_at')">
               {{scope.row.created | formatTime}} <br>
             </el-form-item>
-            <el-form-item label="GroupType:">
+            <el-form-item :label="$t('job_group_type')">
               {{scope.row.level | formatLevel}} <br>
             </el-form-item>
             <el-form-item :label="$t('job_single_node')">
@@ -188,6 +188,7 @@
 <script>
 import taskSidebar from './sidebar'
 import taskService from '../../api/task'
+import i18n from '../../i18n.js'
 
 export default {
   name: 'task-list',
@@ -241,27 +242,27 @@ export default {
   filters: {
     formatLevel (value) {
       if (value === 1) {
-        return this.$tc('main_job')
+        return i18n.t('main_job')
       }
-      return this.$tc('sub_job')
+      return i18n.t('sub_job')
     },
     formatTimeout (value) {
       if (value > 0) {
-        return value + this.$tc('seconds')
+        return value + i18n.tc('seconds')
       }
-      return this.$tc('no_limit')
+      return i18n.tc('no_limit')
     },
     formatRetryTimesInterval (value) {
       if (value > 0) {
         return value + '秒'
       }
-      return this.$tc('default_value')
+      return i18n.tc('default_value')
     },
     formatMulti (value) {
       if (value > 0) {
-        return this.$tc('no')
+        return i18n.tc('no')
       }
-      return this.tc('yes')
+      return i18n.tc('yes')
     }
   },
   methods: {
