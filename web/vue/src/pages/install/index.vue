@@ -105,70 +105,70 @@ export default {
       },
       formRules: {
         db_type: [
-          {required: true, message: '请选择数据库', trigger: 'blur'}
+          {required: true, message: this.$t('msg_choose_database'), trigger: 'blur'}
         ],
         db_host: [
-          {required: true, message: '请输入数据库主机名', trigger: 'blur'}
+          {required: true, message: this.$t('msg_input_database_host'), trigger: 'blur'}
         ],
         db_port: [
-          {type: 'number', required: true, message: '请输入数据库端口', trigger: 'blur'}
+          {type: 'number', required: true, message: this.$t('msg_input_database_port'), trigger: 'blur'}
         ],
         db_username: [
-          {required: true, message: '请输入数据库用户名', trigger: 'blur'}
+          {required: true, message: this.$t('msg_input_database_user'), trigger: 'blur'}
         ],
         db_password: [
-          {required: true, message: '请输入数据库密码', trigger: 'blur'}
+          {required: true, message: this.$t('msg_input_db_password'), trigger: 'blur'}
         ],
         db_name: [
-          {required: true, message: '请输入数据库名称', trigger: 'blur'}
+          {required: true, message: this.$t('msg_input_database_name'), trigger: 'blur'}
         ],
         admin_username: [
-          {required: true, message: '请输入管理员账号', trigger: 'blur'}
+          {required: true, message: this.$t('msg_admin_username'), trigger: 'blur'}
         ],
         admin_email: [
-          {type: 'email', required: true, message: '请输入管理员邮箱', trigger: 'blur'}
+          {type: 'email', required: true, message: this.$t('msg_admin_email'), trigger: 'blur'}
         ],
         admin_password: [
-          {required: true, message: '请输入管理员密码', trigger: 'blur'},
-          {min: 6, message: '长度至少6个字符', trigger: 'blur'}
+          {required: true, message: this.$t('msg_input_admin_password'), trigger: 'blur'},
+          {min: 6, message: this.$t('msg_length_limit'), trigger: 'blur'}
         ],
         confirm_admin_password: [
-          {required: true, message: '请再次输入管理员密码', trigger: 'blur'},
-          {min: 6, message: '长度至少6个字符', trigger: 'blur'}
+          {required: true, message: this.$t('msg_repeat_admin_password'), trigger: 'blur'},
+          {min: 6, message: this.$t('msg_length_limit'), trigger: 'blur'}
         ]
       },
       formSqliteRules: {
         db_type: [
-          {required: true, message: '请选择数据库', trigger: 'blur'}
+          {required: true, message: this.$t('msg_choose_database'), trigger: 'blur'}
         ],
         db_host: [
-          {required: false, message: '请输入数据库主机名', trigger: 'blur'}
+          {required: false, message: this.$t('msg_input_database_host'), trigger: 'blur'}
         ],
         db_port: [
-          {type: 'number', required: false, message: '请输入数据库端口', trigger: 'blur'}
+          {type: 'number', required: false, message: this.$t('msg_input_database_port'), trigger: 'blur'}
         ],
         db_username: [
-          {required: false, message: '请输入数据库用户名', trigger: 'blur'}
+          {required: false, message: this.$t('msg_input_database_user'), trigger: 'blur'}
         ],
         db_password: [
-          {required: false, message: '请输入数据库密码', trigger: 'blur'}
+          {required: false, message: this.$t('msg_input_db_password'), trigger: 'blur'}
         ],
         db_name: [
-          {required: true, message: '请输入数据库名称', trigger: 'blur'}
+          {required: true, message: this.$t('msg_input_database_name'), trigger: 'blur'}
         ],
         admin_username: [
-          {required: true, message: '请输入管理员账号', trigger: 'blur'}
+          {required: true, message: this.$t('msg_admin_username'), trigger: 'blur'}
         ],
         admin_email: [
-          {type: 'email', required: true, message: '请输入管理员邮箱', trigger: 'blur'}
+          {type: 'email', required: true, message: this.$t('msg_admin_email'), trigger: 'blur'}
         ],
         admin_password: [
-          {required: true, message: '请输入管理员密码', trigger: 'blur'},
-          {min: 6, message: '长度至少6个字符', trigger: 'blur'}
+          {required: true, message: this.$t('msg_input_admin_password'), trigger: 'blur'},
+          {min: 6, message: this.$t('msg_length_limit'), trigger: 'blur'}
         ],
         confirm_admin_password: [
-          {required: true, message: '请再次输入管理员密码', trigger: 'blur'},
-          {min: 6, message: '长度至少6个字符', trigger: 'blur'}
+          {required: true, message: this.$t('msg_repeat_admin_password'), trigger: 'blur'},
+          {min: 6, message: this.$t('msg_length_limit'), trigger: 'blur'}
         ]
       },
       dbList: [

@@ -45,9 +45,8 @@ Original `DelayJob` was put it into another project [DelayQueue](https://github.
 
 
 ## Download
-[releases](https://github.com/ouqiang/gocron/releases)  
+[releases](https://github.com/gitlabbin/gocron/releases)  
 
-[Upgrade](https://github.com/ouqiang/gocron/wiki/版本升级)
 
 ## Install
 
@@ -144,7 +143,10 @@ raise issue
 ## ChangeLog
 
 v1.6.0
-- Support Sqlite3
+- Support `Sqlite3`
+- Better handle long run shell job
+    * shell cmd output result to log
+    * keep last max 2000 lines in DB record
 - Fix `shell` mode timeout goroutine leaking
 - UI support international (en, zh)
 - Backend support international (en, zh)

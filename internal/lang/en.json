@@ -1,5 +1,4 @@
 {
-  "hello_world": "Hello World",
   "msg_log_fmt": "#%s#%s#line%d#",
   "timeout": "job timeout, force to exit",
   "manual_cancel": "canceled manually",

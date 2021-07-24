@@ -175,6 +175,17 @@
   "no_limit": "No limit",
   "default_value": "Default",
   "job_started": "Job already started",
-  "job_group_type": "Group type:"
+  "job_group_type": "Group type:",
+  "msg_choose_database": "Please choose database",
+  "msg_input_database_host": "Please input database host",
+  "msg_input_database_port": "Please input database port",
+  "msg_input_database_user": "Please input database user name",
+  "msg_input_db_password": "Please input database password",
+  "msg_input_database_name": "Please input database name",
+  "msg_admin_username": "Please input admin username",
+  "msg_admin_email": "Please input admin email",
+  "msg_input_admin_password": "Please input admin password",
+  "msg_length_limit": "Length no less than 6",
+  "msg_repeat_admin_password": "Please repeat the admin password"
 
 }

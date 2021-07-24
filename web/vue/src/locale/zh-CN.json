@@ -175,5 +175,16 @@
   "no_limit": "不限制",
   "default_value": "系统默认",
   "job_started": "任务已开始执行",
-  "job_group_type": "任务类型:"
+  "job_group_type": "任务类型:",
+  "msg_choose_database": "请选择数据库",
+  "msg_input_database_host": "请输入数据库主机名",
+  "msg_input_database_port": "请输入数据库端口",
+  "msg_input_database_user": "请输入数据库用户名",
+  "msg_input_db_password": "请输入数据库密码",
+  "msg_input_database_name": "请输入数据库名称",
+  "msg_admin_username": "请输入管理员账号",
+  "msg_admin_email": "请输入管理员邮箱",
+  "msg_input_admin_password": "请输入管理员密码",
+  "msg_length_limit": "长度至少6个字符",
+  "msg_repeat_admin_password": "请再次输入管理员密码"
 }

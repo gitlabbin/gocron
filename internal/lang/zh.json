@@ -1,5 +1,4 @@
 {
-  "hello_world": "Hello World",
   "msg_log_fmt": "#%s#%s#%d行#",
   "timeout": "执行超时, 强制结束",
   "manual_cancel": "手动停止",

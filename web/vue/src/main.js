@@ -27,7 +27,7 @@ Vue.prototype.$appConfirm = function (callback) {
     type: 'warning'
   }).then(() => {
     callback()
-  })
+  }).catch(() => {})
 }
 
 Vue.filter('formatTime', function (time) {
