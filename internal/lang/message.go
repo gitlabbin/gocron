@@ -21,10 +21,46 @@ var (
 	ErrUnavailable error
 )
 
-var msgMap = make(map[string]string)
-var statikFS http.FileSystem
-var bundle *i18n.Bundle
-var keys []reflect.Value
+var (
+	msgMap   = make(map[string]string)
+	statikFS http.FileSystem
+	bundle   *i18n.Bundle
+	keys     []reflect.Value
+)
+
+func Tr(key string) string {
+	if x, found := msgMap[key]; found {
+		return x
+	} else {
+		return ""
+	}
+}
+
+func TrLang(ctx *macaron.Context, key string) string {
+	reqLang := ctx.Req.Form.Get("lang")
+	accept := ctx.Req.Header.Get("Accept-Language")
+	localizer := i18n.NewLocalizer(bundle, reqLang, accept)
+	msg := localizer.MustLocalize(&i18n.LocalizeConfig{
+		MessageID: key,
+	})
+	return msg
+}
+
+func InitLangPack(lang string) {
+	loc := i18n.NewLocalizer(bundle, lang)
+
+	for _, k := range keys {
+		key := k.Interface().(string)
+		msg := loc.MustLocalize(&i18n.LocalizeConfig{
+			MessageID: key,
+		})
+		msgMap[key] = msg
+	}
+
+	ErrUnavailable = errors.New(Tr("node_unreachable"))
+	ErrTimeout = errors.New(Tr("timeout"))
+	ErrCancel = errors.New(Tr("manual_cancel"))
+}
 
 func init() {
 	var err error
@@ -89,34 +125,4 @@ func loadAllKeys(content []byte) []reflect.Value {
 		panic(err)
 	}
 	return reflect.ValueOf(result).MapKeys()
-}
-
-func InitLangPack(lang string) {
-	loc := i18n.NewLocalizer(bundle, lang)
-
-	for _, k := range keys {
-		key := k.Interface().(string)
-		msg := loc.MustLocalize(&i18n.LocalizeConfig{
-			MessageID: key,
-		})
-		msgMap[key] = msg
-	}
-
-	ErrUnavailable = errors.New(Tr("node_unreachable"))
-	ErrTimeout = errors.New(Tr("timeout"))
-	ErrCancel = errors.New(Tr("manual_cancel"))
-}
-
-func Tr(key string) string {
-	return msgMap[key]
-}
-
-func TrLang(ctx *macaron.Context, key string) string {
-	reqLang := ctx.Req.Form.Get("lang")
-	accept := ctx.Req.Header.Get("Accept-Language")
-	localizer := i18n.NewLocalizer(bundle, reqLang, accept)
-	msg := localizer.MustLocalize(&i18n.LocalizeConfig{
-		MessageID: key,
-	})
-	return msg
 }
