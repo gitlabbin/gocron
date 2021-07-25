@@ -12,7 +12,7 @@
           <el-form-item :label="$t('username')" prop="username" >
             <el-col :span="16">
               <el-input v-model.trim="form.username"
-                        :placeholder="$t('msg_username_or_email')">
+                        :placeholder="$t('msg_username_or_email')" autofocus>
               </el-input>
             </el-col>
           </el-form-item>
