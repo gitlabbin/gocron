@@ -146,7 +146,7 @@ v1.6.0
 - Support `Sqlite3`
 - Better handle long run shell job
     * shell cmd output result to log
-    * keep last max 2000 lines in DB record
+    * keep max 2000 lines in buffer to minimize memory usage
 - Fix `shell` mode timeout goroutine leaking
 - UI support international (en, zh)
 - Backend support international (en, zh)
