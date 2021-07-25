@@ -77,7 +77,13 @@ func loadStatFs(path string) []byte {
 	if err != nil {
 		log.Fatal("Failed to read lang json file: %s err %v", path, err)
 	}
-	defer r.Close()
+	defer func(r http.File) {
+		err := r.Close()
+		if err != nil {
+			log.Warnf("failed close http file %v", err)
+		}
+	}(r)
+
 	contents, err := ioutil.ReadAll(r)
 	if err != nil {
 		log.Fatal(err)
@@ -92,7 +98,12 @@ func listBundles() []os.FileInfo {
 		log.Fatal("Failed to read lang json dir / err %v", err)
 		return nil
 	}
-	defer r.Close()
+	defer func(r http.File) {
+		err := r.Close()
+		if err != nil {
+			log.Warnf("failed close http file %v", err)
+		}
+	}(r)
 
 	list, err := r.Readdir(-1)
 	if err != nil {
