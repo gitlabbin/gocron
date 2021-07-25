@@ -33,7 +33,7 @@ Original `DelayJob` was put it into another project [DelayQueue](https://github.
                    |--> Node 3
 
 ```
-    
+
 ### OS system
 > Linux, Mac OS, Windows
 
@@ -42,11 +42,8 @@ Original `DelayJob` was put it into another project [DelayQueue](https://github.
 -  MySQL
 -  Postgres
 
-
-
 ## Download
 [releases](https://github.com/gitlabbin/gocron/releases)  
-
 
 ## Install
 
@@ -71,8 +68,7 @@ Original `DelayJob` was put it into another project [DelayQueue](https://github.
 - Run
     * gocron `./bin/gocron web`
     * gocron-node `./bin/gocron-node`
-
-
+  
 ### docker
 
 ```shell
