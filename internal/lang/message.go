@@ -14,7 +14,6 @@ import (
 	"net/http"
 	"os"
 	"reflect"
-	"sync"
 )
 
 var (
@@ -25,7 +24,6 @@ var (
 
 var (
 	msgMap   = cmap.New()
-	rwm      = sync.RWMutex{}
 	statikFS http.FileSystem
 	bundle   *i18n.Bundle
 	keys     []reflect.Value
