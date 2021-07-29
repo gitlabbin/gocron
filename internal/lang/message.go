@@ -13,6 +13,7 @@ import (
 	"net/http"
 	"os"
 	"reflect"
+	"sync"
 )
 
 var (
@@ -23,12 +24,15 @@ var (
 
 var (
 	msgMap   = make(map[string]string)
+	rwm      = sync.RWMutex{}
 	statikFS http.FileSystem
 	bundle   *i18n.Bundle
 	keys     []reflect.Value
 )
 
 func Tr(key string) string {
+	rwm.RLocker()
+	defer rwm.RUnlock()
 	if x, found := msgMap[key]; found {
 		return x
 	} else {
@@ -49,6 +53,8 @@ func TrLang(ctx *macaron.Context, key string) string {
 func InitLangPack(lang string) {
 	loc := i18n.NewLocalizer(bundle, lang)
 
+	rwm.Lock()
+	defer rwm.Unlock()
 	for _, k := range keys {
 		key := k.Interface().(string)
 		msg := loc.MustLocalize(&i18n.LocalizeConfig{
