@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/nicksnyder/go-i18n/v2/i18n"
+	cmap "github.com/orcaman/concurrent-map"
 	_ "github.com/ouqiang/gocron/internal/lang/statik"
 	"github.com/rakyll/statik/fs"
 	log "github.com/sirupsen/logrus"
@@ -23,7 +24,7 @@ var (
 )
 
 var (
-	msgMap   = make(map[string]string)
+	msgMap   = cmap.New()
 	rwm      = sync.RWMutex{}
 	statikFS http.FileSystem
 	bundle   *i18n.Bundle
@@ -31,10 +32,8 @@ var (
 )
 
 func Tr(key string) string {
-	rwm.RLocker()
-	defer rwm.RUnlock()
-	if x, found := msgMap[key]; found {
-		return x
+	if x, found := msgMap.Get(key); found {
+		return x.(string)
 	} else {
 		return ""
 	}
@@ -53,14 +52,12 @@ func TrLang(ctx *macaron.Context, key string) string {
 func InitLangPack(lang string) {
 	loc := i18n.NewLocalizer(bundle, lang)
 
-	rwm.Lock()
-	defer rwm.Unlock()
 	for _, k := range keys {
 		key := k.Interface().(string)
 		msg := loc.MustLocalize(&i18n.LocalizeConfig{
 			MessageID: key,
 		})
-		msgMap[key] = msg
+		msgMap.Set(key, msg)
 	}
 
 	ErrUnavailable = errors.New(Tr("node_unreachable"))

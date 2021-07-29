@@ -23,6 +23,7 @@ require (
 	github.com/lib/pq v1.1.1
 	github.com/mattn/go-sqlite3 v1.10.0
 	github.com/nicksnyder/go-i18n/v2 v2.1.2
+	github.com/orcaman/concurrent-map v0.0.0-20210501183033-44dafcb38ecc
 	github.com/ouqiang/goutil v1.1.1
 	github.com/rakyll/statik v0.1.7
 	github.com/sirupsen/logrus v1.4.2
