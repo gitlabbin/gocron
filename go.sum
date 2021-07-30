@@ -5,6 +5,8 @@ github.com/Tang-RoseChild/mahonia v0.0.0-20131226213531-0eef680515cc h1:7QGNag2v
 github.com/Tang-RoseChild/mahonia v0.0.0-20131226213531-0eef680515cc/go.mod h1:Dl60+a8Tcs+dl3UbHuY54vuwwXo6JJ22RwnDGZ+0U+o=
 github.com/Unknwon/com v0.0.0-20190321035513-0fed4efef755 h1:1B7wb36fHLSwZfHg6ngZhhtIEHQjiC5H4p7qQGBEffg=
 github.com/Unknwon/com v0.0.0-20190321035513-0fed4efef755/go.mod h1:voKvFVpXBJxdIPeqjoJuLK+UVcRlo/JLjeToGxPYu68=
+github.com/armon/circbuf v0.0.0-20190214190532-5111143e8da2 h1:7Ip0wMmLHLRJdrloDxZfhMm0xrLXZS8+COSu2bXmEQs=
+github.com/armon/circbuf v0.0.0-20190214190532-5111143e8da2/go.mod h1:3U/XgcO3hCbHZ8TKRvWD2dDTCfh9M9ya+I9JpbB7O8o=
 github.com/cihub/seelog v0.0.0-20170130134532-f561c5e57575 h1:kHaBemcxl8o/pQ5VM1c8PVE1PubbNx3mjUr09OqWGCs=
 github.com/cihub/seelog v0.0.0-20170130134532-f561c5e57575/go.mod h1:9d6lWj8KzO/fd/NrVaLscBKmPigpZpn5YawRPw+e3Yo=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=

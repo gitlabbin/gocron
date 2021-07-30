@@ -5,7 +5,8 @@ package utils
 import (
 	"bufio"
 	"errors"
-	"github.com/ouqiang/gocron/internal/modules/buffer"
+
+	"github.com/armon/circbuf"
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/net/context"
 	"io"
@@ -68,7 +69,7 @@ func ExecShellPipe(ctx context.Context, command string) (string, error) {
 
 		merged := io.MultiReader(stderr, stdout)
 		scanner := bufio.NewScanner(merged)
-		buf, _ := buffer.NewBuffer(2000)
+		buf, _ := circbuf.NewBuffer(2000)
 		for scanner.Scan() {
 			msg := scanner.Text()
 			buf.Write([]byte(msg + "\n"))

@@ -5,6 +5,7 @@ go 1.12
 require (
 	github.com/Tang-RoseChild/mahonia v0.0.0-20131226213531-0eef680515cc
 	github.com/Unknwon/com v0.0.0-20190321035513-0fed4efef755 // indirect
+	github.com/armon/circbuf v0.0.0-20190214190532-5111143e8da2
 	github.com/cihub/seelog v0.0.0-20170130134532-f561c5e57575
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-gomail/gomail v0.0.0-20160411212932-81ebce5c23df
