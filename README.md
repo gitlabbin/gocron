@@ -147,3 +147,8 @@ v1.6.0
 - UI support international (en, zh)
 - Backend support international (en, zh)
 - GoCron default lang setting in app.ini (app.lang = en)
+
+v1.6.1
+- Fix Panic possibly due to x/sys version
+  Go 1.17 segmentation violation on MacOS Big Sur
+  logrus old version https://github.com/sirupsen/logrus/issues/1285
