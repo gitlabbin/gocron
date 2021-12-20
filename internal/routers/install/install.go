@@ -3,6 +3,7 @@ package install
 import (
 	"errors"
 	"fmt"
+	"github.com/ouqiang/gocron/internal/lang"
 	"strconv"
 
 	macaron "gopkg.in/macaron.v1"
@@ -17,10 +18,10 @@ import (
 	"github.com/ouqiang/gocron/internal/service"
 )
 
-// 系统安装
+// System install
 
 type InstallForm struct {
-	DbType               string `binding:"In(mysql,postgres)"`
+	DbType               string `binding:"In(mysql,postgres,sqlite3)"`
 	DbHost               string `binding:"Required;MaxSize(50)"`
 	DbPort               int    `binding:"Required;Range(1,65535)"`
 	DbUsername           string `binding:"Required;MaxSize(50)"`
@@ -38,18 +39,18 @@ func (f InstallForm) Error(ctx *macaron.Context, errs binding.Errors) {
 		return
 	}
 	json := utils.JsonResponse{}
-	content := json.CommonFailure("表单验证失败, 请检测输入")
+	content := json.CommonFailure(lang.TrLang(ctx, "web_form_validate_fail"))
 	ctx.Write([]byte(content))
 }
 
-// 安装
+// Installation
 func Store(ctx *macaron.Context, form InstallForm) string {
 	json := utils.JsonResponse{}
 	if app.Installed {
-		return json.CommonFailure("系统已安装!")
+		return json.CommonFailure(lang.TrLang(ctx, "system_installed_already"))
 	}
 	if form.AdminPassword != form.ConfirmAdminPassword {
-		return json.CommonFailure("两次输入密码不匹配")
+		return json.CommonFailure(lang.TrLang(ctx, "password_mismatch"))
 	}
 	err := testDbConnection(form)
 	if err != nil {
@@ -58,12 +59,12 @@ func Store(ctx *macaron.Context, form InstallForm) string {
 	// 写入数据库配置
 	err = writeConfig(form)
 	if err != nil {
-		return json.CommonFailure("数据库配置写入文件失败", err)
+		return json.CommonFailure(lang.TrLang(ctx, "app_config_generate_failed"), err)
 	}
 
 	appConfig, err := setting.Read(app.AppConfig)
 	if err != nil {
-		return json.CommonFailure("读取应用配置失败", err)
+		return json.CommonFailure(lang.TrLang(ctx, "failed_read_app_ini"), err)
 	}
 	app.Setting = appConfig
 
@@ -72,19 +73,19 @@ func Store(ctx *macaron.Context, form InstallForm) string {
 	migration := new(models.Migration)
 	err = migration.Install(form.DbName)
 	if err != nil {
-		return json.CommonFailure(fmt.Sprintf("创建数据库表失败-%s", err.Error()), err)
+		return json.CommonFailure(fmt.Sprintf(lang.TrLang(ctx, "failed_create_db_table"), err.Error()), err)
 	}
 
 	// 创建管理员账号
 	err = createAdminUser(form)
 	if err != nil {
-		return json.CommonFailure("创建管理员账号失败", err)
+		return json.CommonFailure(lang.TrLang(ctx, "failed_create_admin"), err)
 	}
 
 	// 创建安装锁
 	err = app.CreateInstallLock()
 	if err != nil {
-		return json.CommonFailure("创建文件安装锁失败", err)
+		return json.CommonFailure(lang.TrLang(ctx, "failed_create_install_lock"), err)
 	}
 
 	// 更新版本号文件
@@ -94,10 +95,10 @@ func Store(ctx *macaron.Context, form InstallForm) string {
 	// 初始化定时任务
 	service.ServiceTask.Initialize()
 
-	return json.Success("安装成功", nil)
+	return json.Success(lang.TrLang(ctx, "app_installed"), nil)
 }
 
-// 配置写入文件
+// Write config file
 func writeConfig(form InstallForm) error {
 	dbConfig := []string{
 		"db.engine", form.DbType,
@@ -111,7 +112,7 @@ func writeConfig(form InstallForm) error {
 		"db.max.idle.conns", "5",
 		"db.max.open.conns", "100",
 		"allow_ips", "",
-		"app.name", "定时任务管理系统", // 应用名称
+		"app.name", "Simple-GoCron", // Application name
 		"api.key", "",
 		"api.secret", "",
 		"enable_tls", "false",
@@ -120,6 +121,7 @@ func writeConfig(form InstallForm) error {
 		"ca_file", "",
 		"cert_file", "",
 		"key_file", "",
+		"app.lang", "en",
 	}
 
 	return setting.Write(dbConfig, app.AppConfig)
@@ -156,7 +158,7 @@ func testDbConnection(form InstallForm) error {
 	if s.Db.Engine == "postgres" && err != nil {
 		pgError, ok := err.(*pq.Error)
 		if ok && pgError.Code == "3D000" {
-			err = errors.New("数据库不存在")
+			err = errors.New(lang.Tr("db_not_existed"))
 		}
 		return err
 	}
@@ -164,7 +166,7 @@ func testDbConnection(form InstallForm) error {
 	if s.Db.Engine == "mysql" && err != nil {
 		mysqlError, ok := err.(*mysql.MySQLError)
 		if ok && mysqlError.Number == 1049 {
-			err = errors.New("数据库不存在")
+			err = errors.New(lang.Tr("db_not_existed"))
 		}
 		return err
 	}

@@ -3,21 +3,27 @@
     <el-menu
       :default-active="currentRoute"
       mode="vertical"
-      background-color="#545c64"
-      text-color="#fff"
-      active-text-color="#ffd04b"
+      :background-color="background_color"
+      :text-color="text_color"
+      :active-text-color="active_text_color"
       router>
-      <el-menu-item index="/system">通知配置</el-menu-item>
-      <el-menu-item index="/system/login-log">登录日志</el-menu-item>
+      <el-menu-item index="/system">{{ $t('notification') }}</el-menu-item>
+      <el-menu-item index="/system/login-log">{{ $t('login_log') }}</el-menu-item>
     </el-menu>
   </el-aside>
 </template>
 
 <script>
+import uiColors from '../../utils/colors'
 export default {
   name: 'system-sidebar',
   data () {
-    return {}
+    return {
+      red: '#ff0000',
+      background_color: uiColors.menu.background_color,
+      text_color: uiColors.menu.text_color,
+      active_text_color: uiColors.menu.active_text_color
+    }
   },
   computed: {
     currentRoute () {

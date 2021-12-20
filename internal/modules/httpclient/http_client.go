@@ -5,8 +5,11 @@ package httpclient
 import (
 	"bytes"
 	"fmt"
+	"github.com/ouqiang/gocron/internal/lang"
 	"io/ioutil"
+	"net"
 	"net/http"
+	"net/url"
 	"time"
 )
 
@@ -56,13 +59,29 @@ func request(req *http.Request, timeout int) ResponseWrapper {
 	setRequestHeader(req)
 	resp, err := client.Do(req)
 	if err != nil {
-		wrapper.Body = fmt.Sprintf("执行HTTP请求错误-%s", err.Error())
+		// handle timeout err with proper info back
+		switch err := err.(type) {
+		case net.Error:
+			if err.Timeout() {
+				wrapper.Body = fmt.Sprintf("net.Error with a Timeout-%s", err.Error())
+				return wrapper
+			}
+		case *url.Error:
+			fmt.Println("This is a *url.Error")
+			if err, ok := err.Err.(net.Error); ok && err.Timeout() {
+				wrapper.Body = fmt.Sprintf("*url.Error with a Timeout-%s", err.Error())
+				return wrapper
+			}
+		}
+
+		// handle other errors without analysis
+		wrapper.Body = fmt.Sprintf(lang.Tr("http_request_error"), err.Error())
 		return wrapper
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		wrapper.Body = fmt.Sprintf("读取HTTP请求返回值失败-%s", err.Error())
+		wrapper.Body = fmt.Sprintf(lang.Tr("read_http_response_fail"), err.Error())
 		return wrapper
 	}
 	wrapper.StatusCode = resp.StatusCode
@@ -77,6 +96,6 @@ func setRequestHeader(req *http.Request) {
 }
 
 func createRequestError(err error) ResponseWrapper {
-	errorMessage := fmt.Sprintf("创建HTTP请求错误-%s", err.Error())
+	errorMessage := fmt.Sprintf(lang.Tr("create_http_request_fail"), err.Error())
 	return ResponseWrapper{0, errorMessage, make(http.Header)}
 }

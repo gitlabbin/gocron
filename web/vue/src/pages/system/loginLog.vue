@@ -23,14 +23,14 @@
         </el-table-column>
         <el-table-column
           prop="username"
-          label="用户名">
+          :label="$t('username')">
         </el-table-column>
         <el-table-column
           prop="ip"
-          label="登录IP">
+          :label="$t('user_ip')">
         </el-table-column>
         <el-table-column
-          label="登录时间"
+          :label="$t('login_time')"
           width="">
           <template slot-scope="scope">
             {{scope.row.created | formatTime}}

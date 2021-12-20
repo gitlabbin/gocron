@@ -6,27 +6,25 @@
         <el-input v-model="form.id" type="hidden"></el-input>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="任务名称" prop="name">
+            <el-form-item :label="$t('job_name')" prop="name">
               <el-input v-model.trim="form.name"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="标签">
-              <el-input v-model.trim="form.tag" placeholder="通过标签将任务分组"></el-input>
+            <el-form-item :label="$t('job_tag')">
+              <el-input v-model.trim="form.tag" :placeholder="$t('job_group_by_tag')"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row v-if="form.level === 1">
           <el-col>
             <el-alert
-              title="主任务可以配置多个子任务, 当主任务执行完成后，自动执行子任务
-任务类型新增后不能变更"
+              :title="$t('jobs_main_sub_description')"
               type="info"
               :closable="false">
             </el-alert>
             <el-alert
-              title="强依赖: 主任务执行成功，才会运行子任务
-弱依赖: 无论主任务执行是否成功，都会运行子任务"
+              :title="$t('jobs_dependency')"
               type="info"
               :closable="false">
             </el-alert> <br>
@@ -34,7 +32,7 @@
         </el-row>
         <el-row>
           <el-col :span="7">
-            <el-form-item label="任务类型">
+            <el-form-item :label="$t('job_relation')">
               <el-select v-model.trim="form.level" :disabled="form.id !== '' ">
                 <el-option
                   v-for="item in levelList"
@@ -46,7 +44,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="7" v-if="form.level === 1">
-            <el-form-item label="依赖关系">
+            <el-form-item :label="$t('dependency')">
               <el-select v-model.trim="form.dependency_status">
                 <el-option
                   v-for="item in dependencyStatusList"
@@ -58,22 +56,22 @@
             </el-form-item>
           </el-col>
           <el-col :span="10">
-            <el-form-item label="子任务ID" v-if="form.level === 1">
-              <el-input v-model.trim="form.dependency_task_id" placeholder="多个ID逗号分隔"></el-input>
+            <el-form-item :label="$t('sub_job_id')" v-if="form.level === 1">
+              <el-input v-model.trim="form.dependency_task_id" :placeholder="$t('comma_separate')"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row v-if="form.level === 1">
           <el-col :span="12">
-            <el-form-item label="crontab表达式" prop="spec">
+            <el-form-item :label="$t('crontab_expression')" prop="spec">
               <el-input v-model.trim="form.spec"
-                        placeholder="秒 分 时 天 月 周"></el-input>
+                        :placeholder="$t('cron_fmt')"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="8">
-            <el-form-item label="执行方式">
+            <el-form-item :label="$t('run_type')">
               <el-select v-model.trim="form.protocol">
                 <el-option
                   v-for="item in protocolList"
@@ -85,7 +83,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8" v-if="form.protocol === 1 ">
-            <el-form-item label="请求方法">
+            <el-form-item :label="$t('request_type')">
               <el-select key="http-method" v-model.trim="form.http_method">
                 <el-option
                   v-for="item in httpMethods"
@@ -97,8 +95,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8" v-else>
-            <el-form-item label="任务节点">
-              <el-select key="shell" v-model="selectedHosts" filterable multiple placeholder="请选择">
+            <el-form-item :label="$t('menu_nodes')">
+              <el-select key="shell" v-model="selectedHosts" filterable multiple :placeholder="$t('choose_hint')">
                 <el-option
                   v-for="item in hosts"
                   :key="item.id"
@@ -111,7 +109,7 @@
         </el-row>
         <el-row>
           <el-col :span="16">
-            <el-form-item label="命令" prop="command">
+            <el-form-item :label="$t('job_task_cmd')" prop="command">
               <el-input
                 type="textarea"
                 :rows="5"
@@ -126,12 +124,12 @@
         <el-row>
           <el-col>
             <el-alert
-              title="任务执行超时强制结束, 取值0-86400(秒), 默认0, 不限制"
+              :title="$t('job_timeout_hint')"
               type="info"
               :closable="false">
             </el-alert>
             <el-alert
-              title="单实例运行, 前次任务未执行完成，下次任务调度时间到了是否要执行, 即是否允许多进程执行同一任务"
+              :title="$t('job_allow_parallel')"
               type="info"
               :closable="false">
             </el-alert> <br>
@@ -139,12 +137,12 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="任务超时时间" prop="timeout">
+            <el-form-item :label="$t('job_timeout_setting')" prop="timeout">
               <el-input v-model.number.trim="form.timeout"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="单实例运行">
+            <el-form-item :label="$t('single_instance')">
               <el-select v-model.trim="form.multi">
                 <el-option
                   v-for="item in runStatusList"
@@ -158,20 +156,20 @@
         </el-row>
         <el-row>
         <el-col :span="12">
-          <el-form-item label="任务失败重试次数" prop="retry_times">
+          <el-form-item :label="$t('job_retry')" prop="retry_times">
             <el-input v-model.number.trim="form.retry_times"
-                      placeholder="0 - 10, 默认0，不重试"></el-input>
+                      :placeholder="$t('retry_hint')"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="任务失败重试间隔时间" prop="retry_interval">
-            <el-input v-model.number.trim="form.retry_interval" placeholder="0 - 3600 (秒), 默认0，执行系统默认策略"></el-input>
+          <el-form-item :label="$t('retry_interval')" prop="retry_interval">
+            <el-input v-model.number.trim="form.retry_interval" :placeholder="$t('retry_interval_hint')"></el-input>
           </el-form-item>
         </el-col>
         </el-row>
         <el-row>
           <el-col :span="8">
-            <el-form-item label="任务通知">
+            <el-form-item :label="$t('job_notification')">
               <el-select v-model.trim="form.notify_status">
                 <el-option
                   v-for="item in notifyStatusList"
@@ -183,7 +181,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8" v-if="form.notify_status !== 1">
-            <el-form-item label="通知类型">
+            <el-form-item :label="$t('notification_type')">
               <el-select v-model.trim="form.notify_type">
                 <el-option
                   v-for="item in notifyTypes"
@@ -197,8 +195,8 @@
           </el-col>
           <el-col :span="8"
                   v-if="form.notify_status !== 1 && form.notify_type === 2">
-            <el-form-item label="接收用户">
-              <el-select key="notify-mail" v-model="selectedMailNotifyIds" filterable multiple placeholder="请选择">
+            <el-form-item :label="$t('receivers')">
+              <el-select key="notify-mail" v-model="selectedMailNotifyIds" filterable multiple :placeholder="$t('choose_hint')">
                 <el-option
                   v-for="item in mailUsers"
                   :key="item.id"
@@ -211,8 +209,8 @@
 
           <el-col :span="8"
                   v-if="form.notify_status !== 1 && form.notify_type === 3">
-            <el-form-item label="发送Channel">
-              <el-select key="notify-slack" v-model="selectedSlackNotifyIds" filterable multiple placeholder="请选择">
+            <el-form-item :label="$t('send_to_channel')">
+              <el-select key="notify-slack" v-model="selectedSlackNotifyIds" filterable multiple :placeholder="$t('choose_hint')">
                 <el-option
                   v-for="item in slackChannels"
                   :key="item.id"
@@ -226,14 +224,14 @@
         </el-row>
         <el-row v-if="form.notify_status === 4">
           <el-col :span="12">
-            <el-form-item label="任务执行输出关键字" prop="notify_keyword">
-              <el-input v-model.trim="form.notify_keyword" placeholder="任务执行输出中包含此关键字将触发通知"></el-input>
+            <el-form-item :label="$t('notify_keywords')" prop="notify_keyword">
+              <el-input v-model.trim="form.notify_keyword" :placeholder="$t('keywords_trigger_notify')"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="16">
-            <el-form-item label="备注">
+            <el-form-item :label="$t('remark')">
               <el-input
                 type="textarea"
                 :rows="3"
@@ -245,8 +243,8 @@
           </el-col>
         </el-row>
         <el-form-item>
-          <el-button type="primary" @click="submit">保存</el-button>
-          <el-button @click="cancel">取消</el-button>
+          <el-button type="primary" @click="submit">{{ $t('action_save') }}</el-button>
+          <el-button @click="cancel">{{ $t('action_cancel') }}</el-button>
         </el-form-item>
       </el-form>
     </el-main>
@@ -286,25 +284,25 @@ export default {
       },
       formRules: {
         name: [
-          {required: true, message: '请输入任务名称', trigger: 'blur'}
+          {required: true, message: this.$t('msg_input_job_name'), trigger: 'blur'}
         ],
         spec: [
-          {required: true, message: '请输入crontab表达式', trigger: 'blur'}
+          {required: true, message: this.$t('msg_input_crontab'), trigger: 'blur'}
         ],
         command: [
-          {required: true, message: '请输入命令', trigger: 'blur'}
+          {required: true, message: this.$t('msg_input_cmd'), trigger: 'blur'}
         ],
         timeout: [
-          {type: 'number', required: true, message: '请输入有效的任务超时时间', trigger: 'blur'}
+          {type: 'number', required: true, message: this.$t('msg_input_valid_timeout'), trigger: 'blur'}
         ],
         retry_times: [
-          {type: 'number', required: true, message: '请输入有效的任务执行失败重试次数', trigger: 'blur'}
+          {type: 'number', required: true, message: this.$t('msg_input_valid_retry'), trigger: 'blur'}
         ],
         retry_interval: [
-          {type: 'number', required: true, message: '请输入有效的任务执行失败，重试间隔时间', trigger: 'blur'}
+          {type: 'number', required: true, message: this.$t('msg_input_valid_retry_interval'), trigger: 'blur'}
         ],
         notify_keyword: [
-          {required: true, message: '请输入要匹配的任务执行输出关键字', trigger: 'blur'}
+          {required: true, message: this.$t('msg_input_job_keywords'), trigger: 'blur'}
         ]
       },
       httpMethods: [
@@ -330,55 +328,55 @@ export default {
       levelList: [
         {
           value: 1,
-          label: '主任务'
+          label: this.$t('main_job')
         },
         {
           value: 2,
-          label: '子任务'
+          label: this.$t('sub_job')
         }
       ],
       dependencyStatusList: [
         {
           value: 1,
-          label: '强依赖'
+          label: this.$t('hard_dependency')
         },
         {
           value: 2,
-          label: '弱依赖'
+          label: this.$t('soft_dependency')
         }
       ],
       runStatusList: [
         {
           value: 2,
-          label: '是'
+          label: this.$t('yes')
         },
         {
           value: 1,
-          label: '否'
+          label: this.$t('no')
         }
       ],
       notifyStatusList: [
         {
           value: 1,
-          label: '不通知'
+          label: this.$t('no_notify')
         },
         {
           value: 2,
-          label: '失败通知'
+          label: this.$t('fail_notify')
         },
         {
           value: 3,
-          label: '总是通知'
+          label: this.$t('always_notify')
         },
         {
           value: 4,
-          label: '关键字匹配通知'
+          label: this.$t('keyword_match_notify')
         }
       ],
       notifyTypes: [
         {
           value: 2,
-          label: '邮件'
+          label: this.$t('email_info')
         },
         {
           value: 3,
@@ -400,10 +398,10 @@ export default {
   computed: {
     commandPlaceholder () {
       if (this.form.protocol === 1) {
-        return '请输入URL地址'
+        return this.$t('msg_input_url')
       }
 
-      return '请输入shell命令'
+      return this.$t('msg_input_shell_cmd')
     }
   },
   components: {taskSidebar},
@@ -412,7 +410,7 @@ export default {
 
     taskService.detail(id, (taskData, hosts) => {
       if (id && !taskData) {
-        this.$message.error('数据不存在')
+        this.$message.error(this.$tc('no_data'))
         this.cancel()
         return
       }
@@ -481,16 +479,16 @@ export default {
           return false
         }
         if (this.form.protocol === 2 && this.selectedHosts.length === 0) {
-          this.$message.error('请选择任务节点')
+          this.$message.error(this.$tc('msg_choose_node'))
           return false
         }
         if (this.form.notify_status > 1) {
           if (this.form.notify_type === 2 && this.selectedMailNotifyIds.length === 0) {
-            this.$message.error('请选择邮件接收用户')
+            this.$message.error(this.$tc('msg_choose_mail_receiver'))
             return false
           }
           if (this.form.notify_type === 3 && this.selectedSlackNotifyIds.length === 0) {
-            this.$message.error('请选择Slack Channel')
+            this.$message.error(this.$tc('msg_choose_slack_channel'))
             return false
           }
         }

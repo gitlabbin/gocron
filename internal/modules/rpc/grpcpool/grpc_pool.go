@@ -20,7 +20,7 @@ const (
 
 var (
 	Pool = &GRPCPool{
-		conns: make(map[string]*Client),
+		conns: make(map[string]*entry),
 	}
 
 	keepAliveParams = keepalive.ClientParameters{
@@ -37,24 +37,34 @@ type Client struct {
 
 type GRPCPool struct {
 	// map key格式 ip:port
-	conns map[string]*Client
-	mu    sync.RWMutex
+	conns map[string]*entry
+	mu    sync.Mutex
+}
+
+type entry struct {
+	res   *Client
+	ready chan struct{} // closed when res is ready
 }
 
 func (p *GRPCPool) Get(addr string) (rpc.TaskClient, error) {
-	p.mu.RLock()
-	client, ok := p.conns[addr]
-	p.mu.RUnlock()
-	if ok {
-		return client.rpcClient, nil
+	var err error
+	p.mu.Lock()
+	e, _ := p.conns[addr]
+	if e == nil {
+		e = &entry{ready: make(chan struct{})}
+		p.conns[addr] = e
+		p.mu.Unlock()
+		e.res, err = p.factory(addr)
+		close(e.ready) // broadcast ready condition
+	} else {
+		p.mu.Unlock()
+		<-e.ready // wait for ready condition
 	}
 
-	client, err := p.factory(addr)
 	if err != nil {
 		return nil, err
 	}
-
-	return client.rpcClient, nil
+	return e.res.rpcClient, nil
 }
 
 // 释放连接
@@ -66,18 +76,11 @@ func (p *GRPCPool) Release(addr string) {
 		return
 	}
 	delete(p.conns, addr)
-	client.conn.Close()
+	client.res.conn.Close()
 }
 
 // 创建连接
 func (p *GRPCPool) factory(addr string) (*Client, error) {
-	p.mu.Lock()
-	defer p.mu.Unlock()
-
-	client, ok := p.conns[addr]
-	if ok {
-		return client, nil
-	}
 	opts := []grpc.DialOption{
 		grpc.WithKeepaliveParams(keepAliveParams),
 		grpc.WithBackoffMaxDelay(backOffMaxDelay),
@@ -109,12 +112,10 @@ func (p *GRPCPool) factory(addr string) (*Client, error) {
 		return nil, err
 	}
 
-	client = &Client{
+	client := &Client{
 		conn:      conn,
 		rpcClient: rpc.NewTaskClient(conn),
 	}
-
-	p.conns[addr] = client
 
 	return client, nil
 }

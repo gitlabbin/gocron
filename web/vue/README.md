@@ -1,6 +1,6 @@
 # gocron
 
-> 定时任务管理系统
+> GoCron Web UI
 
 ## Build Setup
 

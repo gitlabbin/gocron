@@ -1,17 +1,12 @@
 <template>
   <div>
     <el-tabs v-model="activeName" @tab-click="changeTab">
-      <el-tab-pane label="邮件" name="email"></el-tab-pane>
+      <el-tab-pane :label="$t('email_tab')" name="email"></el-tab-pane>
       <el-tab-pane label="Slack" name="slack"></el-tab-pane>
       <el-tab-pane label="Webhook" name="webhook"></el-tab-pane>
     </el-tabs>
     <pre><code style="color:darkgray">
-      通知模板支持的变量
-
-      TaskId 任务ID
-      TaskName 任务名称
-      Status 任务执行结果状态
-      Result 任务执行输出
+      {{$t('email_template_hint')}}
     </code></pre>
   </div>
 </template>

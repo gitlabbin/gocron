@@ -1,6 +1,7 @@
 package server
 
 import (
+	"github.com/ouqiang/gocron/internal/lang"
 	"net"
 	"os"
 	"os/signal"
@@ -37,14 +38,22 @@ func (s Server) Run(ctx context.Context, req *pb.TaskRequest) (*pb.TaskResponse,
 		}
 	}()
 	log.Infof("execute cmd start: [id: %d cmd: %s]", req.Id, req.Command)
-	output, err := utils.ExecShell(ctx, req.Command)
 	resp := new(pb.TaskResponse)
+	var output string
+	var err error
+
+	if req.Timeout > 0 {
+		output, err = utils.ExecShellPipe(ctx, req.Command)
+	} else {
+		output, err = utils.ExecShell(ctx, req.Command)
+	}
 	resp.Output = output
 	if err != nil {
 		resp.Error = err.Error()
 	} else {
 		resp.Error = ""
 	}
+
 	log.Infof("execute cmd end: [id: %d cmd: %s err: %s]", req.Id, req.Command, resp.Error)
 
 	return resp, nil
@@ -82,12 +91,12 @@ func Start(addr string, enableTLS bool, certificate auth.Certificate) {
 	signal.Notify(c, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM)
 	for {
 		s := <-c
-		log.Infoln("收到信号 -- ", s)
+		log.Infoln(lang.Tr("msg_signal_received"), s)
 		switch s {
 		case syscall.SIGHUP:
-			log.Infoln("收到终端断开信号, 忽略")
+			log.Infoln(lang.Tr("msg_signal_terminal_end"))
 		case syscall.SIGINT, syscall.SIGTERM:
-			log.Info("应用准备退出")
+			log.Info(lang.Tr("msg_system_to_exit"))
 			server.GracefulStop()
 			return
 		}

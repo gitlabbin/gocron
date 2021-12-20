@@ -1,12 +1,14 @@
 <template>
-  <div></div>
+  <div><h5>version: {{ version }}</h5></div>
 </template>
 
 <script>
 export default {
   name: 'app-footer',
   data () {
-    return {}
+    return {
+      version: process.env.VUE_APP_VERSION
+    }
   }
 }
 </script>

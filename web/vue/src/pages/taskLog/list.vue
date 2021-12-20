@@ -3,12 +3,12 @@
     <task-sidebar></task-sidebar>
     <el-main>
       <el-form :inline="true" >
-        <el-form-item label="任务ID">
+        <el-form-item :label="$t('job_id')">
           <el-input v-model.trim="searchParams.task_id"></el-input>
         </el-form-item>
-        <el-form-item label="执行方式">
+        <el-form-item :label="$t('job_type')">
           <el-select v-model.trim="searchParams.protocol" placeholder="执行方式">
-            <el-option label="全部" value=""></el-option>
+            <el-option :label="$t('option_all')" value=""></el-option>
             <el-option
             v-for="item in protocolList"
             :key="item.value"
@@ -17,9 +17,9 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="状态">
+        <el-form-item :label="$t('job_status')">
           <el-select v-model.trim="searchParams.status">
-            <el-option label="全部" value=""></el-option>
+            <el-option :label="$t('option_all')" value=""></el-option>
             <el-option
               v-for="item in statusList"
               :key="item.value"
@@ -29,15 +29,16 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="search()">搜索</el-button>
+          <el-button type="primary" icon="el-icon-search" plain @click="search()">{{ $t('action_search') }}</el-button>
         </el-form-item>
       </el-form>
       <el-row type="flex" justify="end">
         <el-col :span="3">
-          <el-button type="danger" v-if="this.$store.getters.user.isAdmin" @click="clearLog">清空日志</el-button>
+          <el-button type="danger" icon="el-icon-delete" plain v-if="this.$store.getters.user.isAdmin" @click="clearLog">
+            {{ $t('log_clean') }}</el-button>
         </el-col>
         <el-col :span="2">
-          <el-button type="info" @click="refresh">刷新</el-button>
+          <el-button type="info" icon="el-icon-refresh" plain @click="refresh">{{ $t('action_refresh') }}</el-button>
         </el-col>
       </el-row>
       <el-pagination
@@ -59,86 +60,88 @@
           <template slot-scope="scope">
             <el-form label-position="left">
               <el-form-item>
-                  重试次数: {{scope.row.retry_times}} <br>
-                  cron表达式: {{scope.row.spec}} <br>
-                  命令: {{scope.row.command}}
+                <li>{{ $t('job_retry_times') }} {{scope.row.retry_times}} <br></li>
+                <li>{{ $t('job_cron') }}: {{scope.row.spec}} <br></li>
+                <li>{{ $t('job_task_cmd') }} {{scope.row.command}}</li>
               </el-form-item>
             </el-form>
           </template>
         </el-table-column>
         <el-table-column
           prop="id"
-          label="ID">
+          label="ID"
+          width="80">
         </el-table-column>
         <el-table-column
           prop="task_id"
-          label="任务ID">
+          :label="$t('job_id')"
+          width="80">
         </el-table-column>
         <el-table-column
           prop="name"
-          label="任务名称"
-        width="180">
+          :label="$t('job_name')">
         </el-table-column>
         <el-table-column
           prop="protocol"
-          label="执行方式"
-          :formatter="formatProtocol">
+          :label="$t('job_type')"
+          :formatter="formatProtocol"
+          width="80">
         </el-table-column>
         <el-table-column
-          label="任务节点"
-          width="150">
+          :label="$t('job_node')"
+          width="200">
           <template slot-scope="scope">
             <div v-html="scope.row.hostname">{{scope.row.hostname}}</div>
           </template>
         </el-table-column>
         <el-table-column
-          label="执行时长"
-          width="250">
+          :label="$t('time_took')"
+          >
           <template slot-scope="scope">
-            执行时长: {{scope.row.total_time > 0 ? scope.row.total_time : 1}}秒<br>
-            开始时间: {{scope.row.start_time | formatTime}}<br>
-            <span v-if="scope.row.status !== 1">结束时间: {{scope.row.end_time | formatTime}}</span>
+            {{ $t('time_took') }}: {{scope.row.total_time > 0 ? scope.row.total_time : 1}} {{ $t('seconds') }}<br>
+            <li>{{ $t('time_start') }}: {{scope.row.start_time | formatTime}}<br></li>
+            <span v-if="scope.row.status !== 1"><li>{{ $t('time_end') }}: {{scope.row.end_time | formatTime}}</li></span>
           </template>
         </el-table-column>
         <el-table-column
-          label="状态">
+          :label="$t('job_status')">
           <template slot-scope="scope">
-            <span style="color:red" v-if="scope.row.status === 0">失败</span>
-            <span style="color:green" v-else-if="scope.row.status === 1">执行中</span>
-            <span v-else-if="scope.row.status === 2">成功</span>
-            <span style="color:#4499EE" v-else-if="scope.row.status === 3">取消</span>
+            <span style="color:red" v-if="scope.row.status === 0">{{ $t('failure') }}</span>
+            <span style="color:green" v-else-if="scope.row.status === 1">{{ $t('in_progress') }}</span>
+            <span v-else-if="scope.row.status === 2">{{ $t('succeed') }}</span>
+            <span style="color:#4499EE" v-else-if="scope.row.status === 3">{{ $t('canceled') }}</span>
           </template>
         </el-table-column>
         <el-table-column
-          label="执行结果"
-          width="120" v-if="this.isAdmin">
+          :label="$t('result')"
+          width="140" v-if="this.isAdmin">
           <template slot-scope="scope">
-            <el-button type="success"
+            <el-button type="success" plain
                        v-if="scope.row.status === 2"
-                       @click="showTaskResult(scope.row)">查看结果</el-button>
-            <el-button type="warning"
+                       @click="showTaskResult(scope.row)">{{ $t('view_result') }}</el-button>
+            <el-button type="warning" plain
                        v-if="scope.row.status === 0"
-                       @click="showTaskResult(scope.row)" >查看结果</el-button>
-            <el-button type="danger"
+                       @click="showTaskResult(scope.row)" >{{ $t('view_result') }}</el-button>
+            <el-button type="danger" plain
                        v-if="scope.row.status === 1 && scope.row.protocol === 2"
-                       @click="stopTask(scope.row)">停止任务
+                       @click="stopTask(scope.row)">{{ $t('stop_job') }}
             </el-button>
           </template>
         </el-table-column>
         <el-table-column
-          label="执行结果"
+          :label="$t('result')"
           width="120" v-else>
           <template slot-scope="scope">
             <el-button type="success"
                        v-if="scope.row.status === 2"
-                       @click="showTaskResult(scope.row)">查看结果</el-button>
+                       @click="showTaskResult(scope.row)">{{ $t('view_result') }}</el-button>
             <el-button type="warning"
                        v-if="scope.row.status === 0"
-                       @click="showTaskResult(scope.row)" >查看结果</el-button>
+                       @click="showTaskResult(scope.row)" >{{ $t('view_result') }}</el-button>
           </template>
         </el-table-column>
       </el-table>
-      <el-dialog title="任务执行结果" :visible.sync="dialogVisible">
+      <el-dialog :title="$t('job_end_result')" :visible.sync="dialogVisible">
         <div>
           <pre>{{currentTaskResult.command}}</pre>
         </div>
@@ -186,19 +189,19 @@ export default {
       statusList: [
         {
           value: '1',
-          label: '失败'
+          label: this.$t('failure')
         },
         {
           value: '2',
-          label: '执行中'
+          label: this.$t('in_progress')
         },
         {
           value: '3',
-          label: '成功'
+          label: this.$t('succeed')
         },
         {
           value: '4',
-          label: '取消'
+          label: this.$t('canceled')
         }
       ]
     }
@@ -255,7 +258,7 @@ export default {
     },
     refresh () {
       this.search(() => {
-        this.$message.success('刷新成功')
+        this.$message.success(this.$t('refresh_done'))
       })
     }
   }

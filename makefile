@@ -1,4 +1,7 @@
 GO111MODULE=on
+#workaourd for golang 1.17.2 version, https://github.com/golang/go/issues/49138
+
+
 
 .PHONY: build
 build: gocron node
@@ -8,7 +11,7 @@ build-race: enable-race build
 
 .PHONY: run
 run: build kill
-	./bin/gocron-node &
+	export MallocNanoZone=0; export GODEBUG=netdns=go; ./bin/gocron-node &
 	./bin/gocron web -e dev
 
 .PHONY: run-race
@@ -20,6 +23,7 @@ kill:
 
 .PHONY: gocron
 gocron:
+	go fmt ./...
 	go build $(RACE) -o bin/gocron ./cmd/gocron
 
 .PHONY: node
@@ -52,7 +56,7 @@ build-vue:
 
 .PHONY: install-vue
 install-vue:
-	cd web/vue && yarn install
+	cd web/vue && yarn install --ignore-engines
 
 .PHONY: run-vue
 run-vue:

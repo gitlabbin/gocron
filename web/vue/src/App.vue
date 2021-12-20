@@ -41,11 +41,18 @@ export default {
 }
 </script>
 <style>
+  :root {
+    --red: #ff0000;
+    --background_color: #324157;
+    --text_color: #bfcbd9;
+    --active_text_color: #049eff;
+  }
   [v-cloak] {
     display: none !important;
   }
   body {
     margin:0;
+    background-color: #EFF2F7;
   }
   .el-header {
     padding:0;
@@ -66,5 +73,37 @@ export default {
   }
   .el-aside .el-menu {
     height: 100%;
+    background-color: var(--background_color);
+    border-color: var(--background_color);
+    text-color: var(--text_color);
+    active-text-color: var(--active_text_color);
   }
+
+  .el-table--border:after,
+ .el-table--group:after,
+ .el-table:before {
+   background-color: #C0C4CC;
+  }
+
+  .el-table--border,
+  .el-table--group {
+    border-color: #C0C4CC;
+  }
+
+  .el-table td,
+  .el-table th.is-leaf {
+    border-bottom: 1px solid #C0C4CC;
+  }
+
+  .el-table--border th,
+  .el-table--border th.gutter:last-of-type {
+    border-bottom: 1px solid #C0C4CC;
+  }
+
+  /*
+  .el-table--border td,
+  .el-table--border th {
+    border-right: 1px solid #CCCCCC;
+  }
+  */
 </style>
